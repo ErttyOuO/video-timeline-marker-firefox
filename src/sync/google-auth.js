@@ -47,6 +47,9 @@
   }
 
   function getRedirectUri() {
+    // Firefox for Android 沒有 identity API：改用固定的 loopback 位址，
+    // 由 webNavigation 在受控分頁中攔截（Google Desktop client 允許任意 127.0.0.1 路徑）。
+    if (typeof browser.identity?.getRedirectURL !== "function") return "http://127.0.0.1/mozoauth2/vtm-android";
     const generated = browser.identity.getRedirectURL();
     const url = new URL(generated);
     const subdomain = url.hostname.split(".")[0];
@@ -210,6 +213,9 @@
   }
 
   async function launchAuthorizationFlow(authUrl, redirectUri) {
+    if (typeof browser.identity?.launchWebAuthFlow !== "function") {
+      return launchAuthorizationTabFallback(authUrl, redirectUri);
+    }
     try {
       // Firefox's public WebExtension schema accepts only {url, interactive} here.
       // The OAuth redirect_uri stays inside authUrl, per MDN.  Standard Firefox

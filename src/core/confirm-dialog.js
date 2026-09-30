@@ -22,11 +22,17 @@
       message = "",
       confirmLabel = "OK",
       cancelLabel = "Cancel",
-      autoConfirmMs = 0,
       hintAuto = "",
       hintPaused = "",
       host = null
     } = options;
+    let { autoConfirmMs = 0 } = options;
+
+    // 觸控裝置（Firefox for Android）沒有「滑鼠移動」可用來暫停倒數，
+    // 自動確認會在使用者還沒反應前就刪除，因此一律關閉，必須明確點選。
+    try {
+      if (window.matchMedia?.("(hover: none)").matches) autoConfirmMs = 0;
+    } catch {}
 
     if (AUTO_STATE.active) AUTO_STATE.active.finish(false);
 

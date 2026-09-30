@@ -3,7 +3,7 @@
   window.__VTM_POPUP_CAPTURE_BRIDGE__ = true;
 
   function currentPlatform() {
-    const host = location.hostname.replace(/^www\./, "");
+    const host = location.hostname.replace(/^(?:www|m)\./, "");
     if (host === "youtube.com") return "youtube";
     if (host === "twitch.tv") return "twitch";
     return null;

@@ -1,3 +1,6 @@
+// Firefox for Android：popup 以全寬顯示，樣式由 popup.css 的 html.vtm-android 處理。
+if (/Android/i.test(navigator.userAgent)) document.documentElement.classList.add("vtm-android");
+
 const KEY = "vtm_markers_v1";
 const IMPORT_REPORT_KEY = "vtm_last_import_report_v1";
 const GROUP_COLLAPSE_KEY = "vtm_popup_group_collapse_v1";
@@ -10,7 +13,7 @@ let syncPanelOpen = false;
 function supportedMediaPlatform(urlValue) {
   try {
     const url = new URL(urlValue || "");
-    const host = url.hostname.replace(/^www\./, "");
+    const host = url.hostname.replace(/^(?:www|m)\./, "");
     if (host === "youtube.com") {
       if (url.pathname === "/watch" && url.searchParams.get("v")) return "youtube";
       if (/^\/(?:shorts|live)\/[^/?#]+/.test(url.pathname)) return "youtube";
@@ -350,7 +353,7 @@ async function connectGoogleDrive() {
     const granted = await browser.permissions.request({
       data_collection: ["authenticationInfo", "websiteActivity", "websiteContent"]
     });
-    if (!granted) {
+    if (granted === false) {
       const error = new Error("data_collection_permission_denied");
       error.code = "data_collection_permission_denied";
       const status = await browser.runtime.sendMessage({ type: "VTM_SYNC_GET_STATUS" }).catch(() => null);
@@ -358,10 +361,9 @@ async function connectGoogleDrive() {
       return;
     }
   } catch (error) {
-    // Older Firefox builds without data-collection consent support are outside v1.2.1's stated minimum.
-    console.warn("[VTM Sync] data collection permission request failed", error);
-    renderSyncStatus(await browser.runtime.sendMessage({ type: "VTM_SYNC_GET_STATUS" }).catch(() => null), { code: "data_collection_permission_denied" });
-    return;
+    // 部分環境（例如 Firefox for Android）可能不支援 data_collection 權限 API：
+    // 此時不視為使用者拒絕，繼續走 Google 授權流程（Firefox 安裝時已顯示資料傳輸聲明）。
+    console.warn("[VTM Sync] data collection permission request unavailable; continuing", error);
   }
 
   setSyncBusy(true, "syncStatusConnecting");
@@ -682,10 +684,10 @@ function navigationIdentity(platform, rawUrl) {
 
 function candidateTabPatterns(platform) {
   if (platform === "youtube") {
-    return ["https://www.youtube.com/*", "https://youtube.com/*"];
+    return ["https://www.youtube.com/*", "https://youtube.com/*", "https://m.youtube.com/*"];
   }
   if (platform === "twitch") {
-    return ["https://www.twitch.tv/*", "https://twitch.tv/*"];
+    return ["https://www.twitch.tv/*", "https://twitch.tv/*", "https://m.twitch.tv/*"];
   }
   return [];
 }

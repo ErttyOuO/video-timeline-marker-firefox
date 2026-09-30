@@ -119,7 +119,12 @@ async function exportMarkers(markerIds) {
     const url = URL.createObjectURL(blob);
     const filename = `${sanitizeFilename(first.title)} ${date}.txt`;
     try {
-      await browser.downloads.download({ url, filename, saveAs: true, conflictAction: "uniquify" });
+      try {
+        await browser.downloads.download({ url, filename, saveAs: true, conflictAction: "uniquify" });
+      } catch (error) {
+        // Firefox for Android 不支援 saveAs / conflictAction 等選項：改用最精簡的參數重試。
+        await browser.downloads.download({ url, filename });
+      }
     } finally {
       setTimeout(() => URL.revokeObjectURL(url), 30000);
     }

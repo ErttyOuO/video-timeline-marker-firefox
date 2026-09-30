@@ -234,3 +234,8 @@ main { flex: 1 1 auto; min-height: 0; padding: 10px; overflow: auto; }
 .sync-setup { margin-top: 8px; border-top: 1px solid color-mix(in srgb, CanvasText 10%, transparent); padding-top: 8px; }
 .sync-help { margin: 7px 0; }
 .sync-error { min-height: 1.2em; margin-top: 6px; font-size: 11px; color: #d33; }
+
+
+/* Firefox for Android：popup 不使用桌面版固定的 440×600，改為全寬全高。 */
+html.vtm-android, html.vtm-android body { width: 100%; min-width: 0; max-width: none; height: 100vh; min-height: 0; }
+html.vtm-android button { min-height: 40px; }

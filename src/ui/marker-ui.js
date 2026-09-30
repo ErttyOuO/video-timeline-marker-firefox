@@ -566,6 +566,21 @@
     return syncTwitchButtonMetrics(button, placement.followButton);
   }
 
+  // ---- Firefox for Android：頁面版面（m.youtube.com / 手機版 Twitch）找不到原生操作列時，
+  // 改用固定在畫面右側的浮動按鈕，確保永遠有入口。
+  const IS_MOBILE = /Android/i.test(navigator.userAgent);
+
+  function showMobileFab(button) {
+    if (!IS_MOBILE) return false;
+    if (button.parentElement !== document.documentElement) document.documentElement.appendChild(button);
+    clearButtonInlineMetrics(button);
+    button.classList.remove("vtm-inline-mounted", "vtm-youtube-fullscreen-mounted", "vtm-youtube-normal-mounted", "ytp-button");
+    button.classList.add("vtm-fallback-mounted", "vtm-mobile-fab");
+    button.style.display = "inline-flex";
+    delete button.dataset.vtmPlacement;
+    return true;
+  }
+
   function ensureMarkButton() {
     let button = document.getElementById("vtm-mark-button");
     if (button) return button;
@@ -947,6 +962,7 @@
       staleSlot?.remove();
       clearButtonInlineMetrics(button);
       button.classList.remove("vtm-inline-mounted");
+      if (showMobileFab(button)) return;
       button.style.display = "none";
       return;
     }
@@ -1006,7 +1022,7 @@
     if (button.parentElement !== document.documentElement) document.documentElement.appendChild(button);
     clearButtonInlineMetrics(button);
     button.classList.remove("vtm-inline-mounted", "vtm-fallback-mounted", "vtm-youtube-fullscreen-mounted", "vtm-youtube-normal-mounted", "ytp-button");
-    button.style.display = "none";
+    if (!showMobileFab(button)) button.style.display = "none";
     parkFullscreenMarkButton(fullscreenButton);
   }
 
@@ -1562,6 +1578,12 @@
   function isInlinePlacementValid(platform) {
     const button = document.getElementById("vtm-mark-button");
     if (!button) return false;
+
+    // 手機浮動按鈕：只要頁面上仍找不到原生位置，就視為有效，避免每 2 秒重掛。
+    if (IS_MOBILE && button.classList.contains("vtm-mobile-fab") && isVisibleElement(button)) {
+      const nativePlacement = platform === "twitch" ? getTwitchPlacement() : getYouTubePlacement()?.host;
+      if (!nativePlacement) return true;
+    }
 
     if (platform === "twitch") {
       const slot = document.getElementById(TWITCH_SLOT_ID);

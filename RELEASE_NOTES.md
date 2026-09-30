@@ -1,3 +1,11 @@
+## v1.3.0
+- Firefox for Android support: manifest declares `gecko_android` (min 140) and adds `m.youtube.com` / `m.twitch.tv`.
+- Android: when no native action row is found (mobile YouTube / mobile Twitch layouts), a floating 🔖 button is shown on the right side of the page.
+- Android: Google Drive sign-in works without the `identity` API by using the controlled-tab OAuth flow with a loopback redirect.
+- Android: popup uses the full width/height instead of the fixed desktop size; TXT export retries without unsupported download options.
+- Touch devices never use the auto-confirm delete countdown; deletion always requires an explicit tap.
+- Mobile YouTube metadata falls back to structured data for the channel name.
+
 ## v1.2.13
 - YouTube: added a stable marker button to the native player control bar (normal/theater modes) so the entry point is always available even when the page action row layout changes.
 - YouTube: the channel-row marker button now aligns to the native Subscribe button's top edge and uses matching colors (light button in dark theme).

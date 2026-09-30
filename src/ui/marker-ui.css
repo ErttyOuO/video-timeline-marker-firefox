@@ -818,3 +818,26 @@ html:not([dark]) #vtm-youtube-owner-slot > #vtm-mark-button.vtm-platform-youtube
   padding: 0 22px;
   gap: 8px;
 }
+
+
+/* Firefox for Android 浮動標記按鈕（找不到原生操作列時使用）。 */
+#vtm-mark-button.vtm-fallback-mounted.vtm-mobile-fab {
+  position: fixed;
+  right: 10px;
+  top: 42%;
+  bottom: auto;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
+  padding: 0;
+  border-radius: 50%;
+  background: rgba(24, 24, 27, .82);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(0,0,0,.4);
+  opacity: .88;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+#vtm-mark-button.vtm-fallback-mounted.vtm-mobile-fab .vtm-mark-label { display: none; }
+#vtm-mark-button.vtm-fallback-mounted.vtm-mobile-fab .vtm-mark-emoji { font-size: 22px; }

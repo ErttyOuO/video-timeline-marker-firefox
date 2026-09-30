@@ -19,11 +19,19 @@
   }
 
   function getCreatorName() {
-    return text([
+    const fromDom = text([
       "ytd-watch-metadata ytd-channel-name a",
       "#owner ytd-channel-name a",
-      "#channel-name a"
+      "#channel-name a",
+      // 手機版 m.youtube.com
+      "ytm-slim-owner-renderer .slim-owner-channel-name",
+      "ytm-slim-owner-renderer a[href^='/@'], ytm-slim-owner-renderer a[href^='/channel/']"
     ]);
+    if (fromDom) return fromDom;
+    // 桌面 / 手機版共通的結構化資料。
+    return document.querySelector("[itemprop='author'] link[itemprop='name']")?.getAttribute("content")?.trim()
+      || document.querySelector("meta[name='author']")?.getAttribute("content")?.trim()
+      || "";
   }
 
   function getCanonicalUrl(videoId) {
