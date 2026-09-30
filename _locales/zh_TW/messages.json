@@ -587,5 +587,23 @@
   },
   "syncErrorProviderDetail": {
     "message": "服務商詳細資訊"
+  },
+  "confirmDeleteTitle": {
+    "message": "刪除標記"
+  },
+  "confirmDeleteBatchTitle": {
+    "message": "確認刪除"
+  },
+  "confirmKeep": {
+    "message": "保留"
+  },
+  "cancel": {
+    "message": "取消"
+  },
+  "confirmAutoHint": {
+    "message": "1 秒後自動刪除。將滑鼠移到此視窗內即可暫停。"
+  },
+  "confirmPausedHint": {
+    "message": "已暫停自動刪除，請選擇要刪除或保留。"
   }
 }

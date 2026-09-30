@@ -587,5 +587,23 @@
   },
   "syncErrorProviderDetail": {
     "message": "Provider detail"
+  },
+  "confirmDeleteTitle": {
+    "message": "Delete marker"
+  },
+  "confirmDeleteBatchTitle": {
+    "message": "Confirm delete"
+  },
+  "confirmKeep": {
+    "message": "Keep"
+  },
+  "cancel": {
+    "message": "Cancel"
+  },
+  "confirmAutoHint": {
+    "message": "Deleting in 1 second. Move your mouse over this window to pause."
+  },
+  "confirmPausedHint": {
+    "message": "Auto-delete paused. Choose Delete or Keep."
   }
 }

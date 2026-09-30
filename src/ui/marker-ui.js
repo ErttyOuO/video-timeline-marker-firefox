@@ -169,6 +169,15 @@
       owner.insertBefore(slot, expectedBefore);
     }
 
+    // 不同帳號 / 頻道（例如有認證徽章）的 #owner 對齊方式不同：有的 align-items:center，
+    // 有的是 normal（訂閱鈕貼頂）。這裡直接量測原生訂閱鈕的頂端，把 slot 對齊到同一條線。
+    slot.style.alignSelf = "flex-start";
+    const currentOffset = parseFloat(slot.style.marginTop) || 0;
+    const deltaTop = subscribeButton.getBoundingClientRect().top - slot.getBoundingClientRect().top;
+    if (Number.isFinite(deltaTop) && Math.abs(deltaTop) > 0.5) {
+      slot.style.marginTop = `${Math.round((currentOffset + deltaTop) * 100) / 100}px`;
+    }
+
     return {
       host: slot,
       before: null,
@@ -585,6 +594,65 @@
     return button;
   }
 
+  // ---- YouTube 播放器控制列按鈕（一般模式的穩定備援）----
+  // 頁面操作列 / 頻道列的 DOM 會隨帳號、A/B 實驗與視窗寬度改變，
+  // 但播放器右下角控制列 (.ytp-right-controls) 多年來都很穩定。
+  // 因此一般模式永遠在播放器控制列多放一顆原生樣式的標記按鈕，
+  // 即使頁面上的按鈕位置暫時找不到，使用者仍然一定看得到入口。
+  const PLAYER_BUTTON_ID = "vtm-mark-button-player";
+
+  function getYouTubePlayerControlsHost() {
+    const player = document.querySelector("#movie_player");
+    if (!player) return null;
+    for (const selector of [".ytp-right-controls-left", ".ytp-right-controls"]) {
+      const host = player.querySelector(selector);
+      if (host?.isConnected) return host;
+    }
+    return null;
+  }
+
+  function ensurePlayerMarkButton() {
+    let button = document.getElementById(PLAYER_BUTTON_ID);
+    if (button) return button;
+    button = document.createElement("button");
+    button.id = PLAYER_BUTTON_ID;
+    button.type = "button";
+    button.className = "ytp-button vtm-player-control-button";
+    button.title = t("markCurrentTime");
+    button.setAttribute("aria-label", t("markCurrentTime"));
+    button.innerHTML = `
+      <svg viewBox="0 0 24 24" width="24" height="24" focusable="false" aria-hidden="true">
+        <path d="M7.25 3.75h9.5c.828 0 1.5.672 1.5 1.5v15l-6.25-3.5-6.25 3.5v-15c0-.828.672-1.5 1.5-1.5Z"></path>
+      </svg>
+    `;
+    button.addEventListener("pointerdown", (event) => event.stopImmediatePropagation());
+    button.addEventListener("click", (event) => {
+      event.stopImmediatePropagation();
+      void openCapturePanel();
+    });
+    for (const eventName of ["keydown", "keyup", "keypress"]) {
+      button.addEventListener(eventName, (event) => event.stopImmediatePropagation());
+    }
+    return button;
+  }
+
+  function parkPlayerMarkButton() {
+    document.getElementById(PLAYER_BUTTON_ID)?.remove();
+  }
+
+  function syncPlayerMarkButton() {
+    const host = getYouTubePlayerControlsHost();
+    if (!host) {
+      parkPlayerMarkButton();
+      return false;
+    }
+    const button = ensurePlayerMarkButton();
+    if (button.parentElement !== host || host.firstElementChild !== button) {
+      host.insertBefore(button, host.firstChild);
+    }
+    return true;
+  }
+
   function ensureFullscreenMarkButton() {
     let button = document.getElementById("vtm-mark-button-fullscreen");
     if (button) return button;
@@ -868,6 +936,7 @@
 
     if (platform === "twitch") {
       parkFullscreenMarkButton(fullscreenButton);
+      parkPlayerMarkButton();
 
       const placement = getTwitchPlacement();
       button.classList.remove("vtm-fallback-mounted", "vtm-twitch-anchor-mounted", "ytp-button");
@@ -888,6 +957,10 @@
     twitchSlot?.remove();
     button.classList.remove("vtm-twitch-anchor-mounted");
     clearButtonInlineMetrics(button);
+
+    // 全螢幕時使用右上角專用按鈕；其他模式一律在播放器控制列放一顆穩定入口。
+    if (getYouTubeFullscreenPlayer()) parkPlayerMarkButton();
+    else syncPlayerMarkButton();
 
     const placement = getYouTubePlacement();
     if (placement?.host) {
@@ -1128,7 +1201,7 @@
     }
 
     item.querySelector('[data-action="delete"]').addEventListener("click", async () => {
-      if (!window.confirm(t("confirmDelete"))) return;
+      if (!(await confirmDeleteMarker())) return;
       await ns.core.store.remove(marker.id);
       if (marker.id === activeMarkerId) {
         activeMarkerId = null;
@@ -1396,9 +1469,26 @@
     armPanelFadeAfterSave();
   }
 
+  // 自訂刪除確認視窗：1 秒內滑鼠沒有在視窗內移動就自動確定刪除；
+  // 在視窗內移動滑鼠即暫停倒數，交給使用者決定刪除或保留。
+  async function confirmDeleteMarker() {
+    const dialog = globalThis.__VTM_CONFIRM__?.confirmDialog;
+    if (!dialog) return window.confirm(t("confirmDelete"));
+    return dialog({
+      title: t("confirmDeleteTitle"),
+      message: t("confirmDelete"),
+      confirmLabel: t("delete"),
+      cancelLabel: t("confirmKeep"),
+      autoConfirmMs: 1000,
+      hintAuto: t("confirmAutoHint"),
+      hintPaused: t("confirmPausedHint"),
+      host: ensureRoot()
+    });
+  }
+
   async function deleteCurrentMarker() {
     if (!activeMarkerId) return;
-    if (!window.confirm(t("confirmDelete"))) return;
+    if (!(await confirmDeleteMarker())) return;
     await flushPendingNoteSave();
     await ns.core.store.remove(activeMarkerId);
     activeMarkerId = null;
@@ -1482,6 +1572,12 @@
       }
       const placement = getTwitchPlacement();
       return placement ? mountTwitchButtonInline(button, placement) : false;
+    }
+
+    if (!getYouTubeFullscreenPlayer()) {
+      const playerHost = getYouTubePlayerControlsHost();
+      const playerButton = document.getElementById(PLAYER_BUTTON_ID);
+      if (playerHost && (!playerButton || playerButton.parentElement !== playerHost)) return false;
     }
 
     const placement = getYouTubePlacement();

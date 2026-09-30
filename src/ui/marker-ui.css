@@ -766,3 +766,45 @@ html[dark="true"] #vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted:hover
 #vtm-mark-button.vtm-platform-youtube.vtm-youtube-normal-mounted.vtm-youtube-micro .vtm-mark-emoji {
   font-size: 15px !important;
 }
+
+
+/* YouTube 播放器控制列上的穩定標記入口（一般 / 劇院模式）。
+   使用 YouTube 原生 .ytp-button 的尺寸與 hover，只補上圖示顏色。 */
+#movie_player #vtm-mark-button-player.vtm-player-control-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: top;
+  opacity: .9;
+  cursor: pointer;
+}
+#movie_player #vtm-mark-button-player.vtm-player-control-button:hover { opacity: 1; }
+#movie_player #vtm-mark-button-player.vtm-player-control-button svg {
+  width: 24px;
+  height: 24px;
+  fill: #fff;
+  pointer-events: none;
+}
+#movie_player:fullscreen #vtm-mark-button-player,
+#movie_player.ytp-fullscreen #vtm-mark-button-player { display: none !important; }
+
+
+/* 頻道列（訂閱鈕旁）的標記按鈕：配色對齊 YouTube 原生訂閱鈕。
+   深色主題 = 白色底 + 深色字；淺色主題 = 深色底 + 白字（與淺色主題的訂閱鈕相同）。 */
+html[dark] #vtm-youtube-owner-slot > #vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted {
+  background: #f1f1f1;
+  color: #0f0f0f;
+  box-shadow: none;
+}
+html[dark] #vtm-youtube-owner-slot > #vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted:hover {
+  background: #d9d9d9;
+}
+html:not([dark]) #vtm-youtube-owner-slot > #vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted {
+  background: #0f0f0f;
+  color: #fff;
+  box-shadow: none;
+}
+html:not([dark]) #vtm-youtube-owner-slot > #vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted:hover {
+  background: #272727;
+}
+#vtm-youtube-owner-slot { align-self: flex-start; }

@@ -392,7 +392,7 @@ async function syncNow() {
 }
 
 async function disconnectGoogleDrive() {
-  if (!window.confirm(t("syncConfirmDisconnect"))) return;
+  if (!(await confirmAction({ title: t("syncDisconnect"), message: t("syncConfirmDisconnect"), confirmLabel: t("syncDisconnect") }))) return;
   setSyncBusy(true);
   try {
     const status = await browser.runtime.sendMessage({ type: "VTM_SYNC_DISCONNECT" });
@@ -572,8 +572,23 @@ async function editNote(id) {
   await render();
 }
 
+// 自訂確認視窗（取代 window.confirm）。auto=true 時 1 秒內沒在視窗內移動滑鼠就自動確定。
+async function confirmAction({ title, message, confirmLabel, auto = false }) {
+  const dialog = globalThis.__VTM_CONFIRM__?.confirmDialog;
+  if (!dialog) return window.confirm(message);
+  return dialog({
+    title,
+    message,
+    confirmLabel,
+    cancelLabel: auto ? t("confirmKeep") : t("cancel"),
+    autoConfirmMs: auto ? 1000 : 0,
+    hintAuto: auto ? t("confirmAutoHint") : "",
+    hintPaused: auto ? t("confirmPausedHint") : ""
+  });
+}
+
 async function removeMarker(id) {
-  if (!window.confirm(t("confirmDelete"))) return;
+  if (!(await confirmAction({ title: t("confirmDeleteTitle"), message: t("confirmDelete"), confirmLabel: t("delete"), auto: true }))) return;
   const all = await getAll();
   await setAll(all.filter((m) => m.id !== id));
   await render();
@@ -626,7 +641,7 @@ function exportSelectedGroups() {
 async function deleteGroup(group) {
   if (!group?.markers?.length) return;
   const title = group.first?.title || t("unnamedVideo");
-  const confirmed = window.confirm(t("confirmDeleteMedia", [title, String(group.markers.length)]));
+  const confirmed = await confirmAction({ title: t("confirmDeleteBatchTitle"), message: t("confirmDeleteMedia", [title, String(group.markers.length)]), confirmLabel: t("delete") });
   if (!confirmed) return;
   const ids = new Set(group.markers.map((marker) => marker.id));
   const all = await getAll();
@@ -638,7 +653,7 @@ async function deleteSelectedGroups() {
   const groups = selectedGroups();
   if (!groups.length) return;
   const markerCount = groups.reduce((count, group) => count + group.markers.length, 0);
-  const confirmed = window.confirm(t("confirmDeleteSelected", [String(groups.length), String(markerCount)]));
+  const confirmed = await confirmAction({ title: t("confirmDeleteBatchTitle"), message: t("confirmDeleteSelected", [String(groups.length), String(markerCount)]), confirmLabel: t("delete") });
   if (!confirmed) return;
   const ids = new Set(groups.flatMap((group) => group.markers.map((marker) => marker.id)));
   const all = await getAll();

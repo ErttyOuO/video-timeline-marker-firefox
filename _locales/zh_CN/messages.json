@@ -587,5 +587,23 @@
   },
   "syncErrorProviderDetail": {
     "message": "服务商详细信息"
+  },
+  "confirmDeleteTitle": {
+    "message": "删除标记"
+  },
+  "confirmDeleteBatchTitle": {
+    "message": "确认删除"
+  },
+  "confirmKeep": {
+    "message": "保留"
+  },
+  "cancel": {
+    "message": "取消"
+  },
+  "confirmAutoHint": {
+    "message": "1 秒后自动删除。将鼠标移到此窗口内即可暂停。"
+  },
+  "confirmPausedHint": {
+    "message": "已暂停自动删除，请选择删除或保留。"
   }
 }

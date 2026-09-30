@@ -1,3 +1,9 @@
+## v1.2.13
+- YouTube: added a stable marker button to the native player control bar (normal/theater modes) so the entry point is always available even when the page action row layout changes.
+- YouTube: the channel-row marker button now aligns to the native Subscribe button's top edge and uses matching colors (light button in dark theme).
+- Popup: version number is shown in the footer.
+- Delete confirmation is now a custom dialog matching the marker panel. Deleting a single marker auto-confirms after 1 second unless the mouse moves inside the dialog (or a key is pressed); moving the mouse inside pauses the countdown so the user can choose Delete or Keep. Batch deletes and disconnecting Google Drive always require an explicit click.
+
 ## v1.2.12
 - OAuth diagnostics: Google/Firefox provider `error_description` is now shown for authorization failures such as `invalid_request`, redirect mismatch, client errors, policy blocks and browser launch failures instead of collapsing them into a generic message.
 - No Google Drive scope change: `drive.appdata` remains the only Drive scope.

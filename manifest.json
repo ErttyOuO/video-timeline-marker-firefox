@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "__MSG_extensionName__",
-  "version": "1.2.12",
+  "version": "1.2.13",
   "description": "__MSG_extensionDescription__",
   "permissions": [
     "storage",
@@ -46,6 +46,7 @@
         "src/core/time-format.js",
         "src/core/i18n.js",
         "src/core/marker-store.js",
+        "src/core/confirm-dialog.js",
         "src/platforms/youtube/youtube-detector.js",
         "src/platforms/youtube/youtube-metadata.js",
         "src/platforms/youtube/youtube-timeline.js",
@@ -54,6 +55,7 @@
         "src/content/youtube-content.js"
       ],
       "css": [
+        "src/core/confirm-dialog.css",
         "src/ui/marker-ui.css"
       ],
       "run_at": "document_idle"
@@ -68,6 +70,7 @@
         "src/core/time-format.js",
         "src/core/i18n.js",
         "src/core/marker-store.js",
+        "src/core/confirm-dialog.js",
         "src/platforms/twitch/twitch-detector.js",
         "src/platforms/twitch/twitch-metadata.js",
         "src/platforms/twitch/twitch-timeline.js",
@@ -76,6 +79,7 @@
         "src/content/twitch-content.js"
       ],
       "css": [
+        "src/core/confirm-dialog.css",
         "src/ui/marker-ui.css"
       ],
       "run_at": "document_idle"
