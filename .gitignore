@@ -1,0 +1,10 @@
+# Never commit downloaded OAuth credential files
+client_secret*.json
+*.bak
+*.orig
+_to_delete/
+.tmp.driveupload/
+*.xpi
+*.zip
+.DS_Store
+Thumbs.db

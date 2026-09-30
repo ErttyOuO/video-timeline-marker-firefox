@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Video Timeline Marker</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <img class="brand-icon" src="../../icons/icon-48.png" alt="">
+      <div>
+        <h1 id="popup-title">Timeline Marker</h1>
+        <p id="popup-subtitle">YouTube / Twitch</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button id="import-txt" type="button">Import TXT</button>
+      <button id="sync-panel-toggle" class="sync-toolbar-button" type="button" aria-expanded="false" aria-controls="sync-panel">
+        <span class="sync-toolbar-icon" aria-hidden="true">☁</span>
+        <span id="sync-toolbar-indicator" class="sync-toolbar-indicator" data-state="off" aria-hidden="true"></span>
+      </button>
+      <button id="add-marker-current" type="button">＋ Add marker</button>
+      <button id="export-all" type="button">Export all</button>
+    </div>
+  </header>
+
+  <section id="import-report" class="import-report" role="status" aria-live="polite" hidden>
+    <div class="import-report-header">
+      <div class="import-report-copy">
+        <strong id="import-report-title"></strong>
+        <div id="import-report-summary"></div>
+      </div>
+      <button id="import-report-close" class="import-report-close" type="button">×</button>
+    </div>
+    <details id="import-report-details">
+      <summary id="import-report-details-label">Details</summary>
+      <div id="import-report-files"></div>
+    </details>
+  </section>
+
+  <section id="sync-panel" class="sync-panel" aria-labelledby="sync-title" hidden>
+    <div class="sync-header">
+      <div class="sync-heading">
+        <span class="sync-cloud" aria-hidden="true">☁</span>
+        <div>
+          <strong id="sync-title">Google Drive sync</strong>
+          <div id="sync-summary" class="sync-summary"></div>
+        </div>
+      </div>
+      <div class="sync-header-actions">
+        <span id="sync-status-badge" class="sync-status-badge" data-state="off"></span>
+        <button id="sync-panel-close" class="sync-panel-close" type="button" aria-label="Close">×</button>
+      </div>
+    </div>
+
+    <div id="sync-connected" class="sync-connected" hidden>
+      <div class="sync-controls">
+        <label class="sync-toggle">
+          <input id="sync-auto" type="checkbox">
+          <span id="sync-auto-label">Auto sync</span>
+        </label>
+        <div class="sync-actions">
+          <button id="sync-now" type="button">Sync now</button>
+          <button id="sync-disconnect" class="danger" type="button">Disconnect</button>
+        </div>
+      </div>
+      <div id="sync-last" class="sync-last"></div>
+    </div>
+
+    <div id="sync-setup" class="sync-setup">
+      <p id="sync-setup-help" class="sync-help"></p>
+      <button id="sync-connect" type="button">Connect Google Drive</button>
+    </div>
+    <div id="sync-error" class="sync-error" role="status" aria-live="polite"></div>
+  </section>
+
+  <section id="batch-toolbar" class="batch-toolbar" hidden>
+    <label class="select-all-wrap">
+      <input id="select-all-groups" type="checkbox">
+      <span id="select-all-label">Select all videos</span>
+    </label>
+    <div class="batch-actions">
+      <button id="export-selected" type="button" disabled>Export selected</button>
+      <button id="delete-selected" class="danger" type="button" disabled>Delete selected</button>
+    </div>
+  </section>
+
+  <main id="list"></main>
+  <footer id="app-footer" class="app-footer"><span id="app-version"></span></footer>
+
+  <template id="group-template">
+    <section class="media-group">
+      <div class="group-header">
+        <label class="group-select-wrap" title="">
+          <input class="group-select" type="checkbox">
+        </label>
+        <div class="group-info">
+          <div class="group-title-row">
+            <button class="group-toggle" type="button" aria-expanded="true">
+              <span class="group-toggle-icon" aria-hidden="true">▾</span>
+            </button>
+            <strong class="group-title"></strong>
+            <span class="group-badge"></span>
+          </div>
+          <div class="group-meta"></div>
+        </div>
+        <div class="group-actions">
+          <button class="group-export" type="button"></button>
+          <button class="group-delete danger" type="button"></button>
+        </div>
+      </div>
+      <div class="group-markers"></div>
+    </section>
+  </template>
+
+  <template id="item-template">
+    <article class="item">
+      <div class="row">
+        <div class="time"></div>
+        <span class="badge"></span>
+      </div>
+      <div class="note"></div>
+      <div class="actions">
+        <button class="open" type="button"></button>
+        <button class="edit" type="button"></button>
+        <button class="export" type="button"></button>
+        <button class="delete danger" type="button"></button>
+      </div>
+    </article>
+  </template>
+
+  <script src="popup.js"></script>
+</body>
+</html>

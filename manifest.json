@@ -1,0 +1,126 @@
+{
+  "manifest_version": 3,
+  "name": "__MSG_extensionName__",
+  "version": "1.2.12",
+  "description": "__MSG_extensionDescription__",
+  "permissions": [
+    "storage",
+    "downloads",
+    "scripting",
+    "identity",
+    "webNavigation",
+    "alarms"
+  ],
+  "host_permissions": [
+    "https://www.youtube.com/*",
+    "https://youtube.com/*",
+    "https://www.twitch.tv/*",
+    "https://twitch.tv/*",
+    "https://www.googleapis.com/*",
+    "https://oauth2.googleapis.com/*"
+  ],
+  "action": {
+    "default_title": "__MSG_extensionName__",
+    "default_popup": "src/popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png"
+    }
+  },
+  "background": {
+    "scripts": [
+      "src/sync/google-auth.js",
+      "src/sync/google-drive.js",
+      "src/sync/sync-engine.js",
+      "src/background/background.js"
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.youtube.com/*",
+        "https://youtube.com/*"
+      ],
+      "js": [
+        "src/core/namespace.js",
+        "src/core/time-format.js",
+        "src/core/i18n.js",
+        "src/core/marker-store.js",
+        "src/platforms/youtube/youtube-detector.js",
+        "src/platforms/youtube/youtube-metadata.js",
+        "src/platforms/youtube/youtube-timeline.js",
+        "src/content/popup-capture-bridge.js",
+        "src/ui/marker-ui.js",
+        "src/content/youtube-content.js"
+      ],
+      "css": [
+        "src/ui/marker-ui.css"
+      ],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://www.twitch.tv/*",
+        "https://twitch.tv/*"
+      ],
+      "js": [
+        "src/core/namespace.js",
+        "src/core/time-format.js",
+        "src/core/i18n.js",
+        "src/core/marker-store.js",
+        "src/platforms/twitch/twitch-detector.js",
+        "src/platforms/twitch/twitch-metadata.js",
+        "src/platforms/twitch/twitch-timeline.js",
+        "src/content/popup-capture-bridge.js",
+        "src/ui/marker-ui.js",
+        "src/content/twitch-content.js"
+      ],
+      "css": [
+        "src/ui/marker-ui.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "video-timeline-marker@erttyouo",
+      "strict_min_version": "140.0",
+      "data_collection_permissions": {
+        "required": [
+          "none"
+        ],
+        "optional": [
+          "authenticationInfo",
+          "websiteActivity",
+          "websiteContent"
+        ]
+      }
+    }
+  },
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "96": "icons/icon-96.png",
+    "128": "icons/icon-128.png"
+  },
+  "default_locale": "en",
+  "homepage_url": "https://github.com/ErttyOuO",
+  "developer": {
+    "name": "貳緹 (erttyouo)",
+    "url": "https://github.com/ErttyOuO"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "icons/icon-32.png"
+      ],
+      "matches": [
+        "https://www.youtube.com/*",
+        "https://youtube.com/*",
+        "https://www.twitch.tv/*",
+        "https://twitch.tv/*"
+      ]
+    }
+  ]
+}

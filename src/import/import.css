@@ -1,0 +1,30 @@
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+html, body { margin: 0; min-width: 520px; min-height: 520px; }
+body { font: 14px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; background: Canvas; color: CanvasText; }
+header { display: flex; align-items: center; gap: 10px; padding: 14px 16px; border-bottom: 1px solid color-mix(in srgb, CanvasText 14%, transparent); }
+header img { width: 40px; height: 40px; border-radius: 10px; }
+h1 { margin: 0; font-size: 18px; }
+header p { margin: 2px 0 0; font-size: 12px; opacity: .62; }
+main { padding: 14px; }
+.intro-card, .import-report { border: 1px solid color-mix(in srgb, CanvasText 15%, transparent); border-radius: 12px; padding: 13px; background: color-mix(in srgb, Canvas 96%, CanvasText 4%); }
+.intro-card p { margin: 0 0 8px; }
+.supported { font-size: 12px; opacity: .72; }
+.actions { display: flex; gap: 8px; margin-top: 12px; }
+button { border: 1px solid color-mix(in srgb, CanvasText 18%, transparent); border-radius: 8px; padding: 8px 12px; background: ButtonFace; color: ButtonText; cursor: pointer; }
+button.primary { font-weight: 700; border-color: color-mix(in srgb, #7c5cff 65%, transparent); background: color-mix(in srgb, #7c5cff 15%, ButtonFace); }
+.progress { margin-top: 10px; padding: 9px 11px; border-radius: 9px; background: color-mix(in srgb, #7c5cff 10%, Canvas); border: 1px solid color-mix(in srgb, #7c5cff 35%, transparent); }
+.import-report { margin-top: 10px; }
+.import-report[data-state="success"] { border-color: color-mix(in srgb, #2a9d5b 55%, transparent); background: color-mix(in srgb, #2a9d5b 9%, Canvas); }
+.import-report[data-state="warning"] { border-color: color-mix(in srgb, #d59a00 62%, transparent); background: color-mix(in srgb, #d59a00 10%, Canvas); }
+.import-report[data-state="error"] { border-color: color-mix(in srgb, #d33 58%, transparent); background: color-mix(in srgb, #d33 9%, Canvas); }
+#import-report-title { display: block; font-size: 14px; margin-bottom: 3px; }
+#import-report-summary { font-size: 12px; opacity: .9; }
+#import-report-details { margin-top: 8px; }
+#import-report-details > summary { cursor: pointer; font-weight: 650; }
+#import-report-files { display: grid; gap: 8px; margin-top: 8px; max-height: 310px; overflow: auto; }
+.import-file-result { border-top: 1px solid color-mix(in srgb, CanvasText 10%, transparent); padding-top: 7px; overflow-wrap: anywhere; }
+.import-file-result:first-child { border-top: 0; padding-top: 0; }
+.import-file-result.is-failed > strong { color: color-mix(in srgb, #d33 82%, CanvasText); }
+.import-file-summary { margin-top: 2px; font-size: 12px; opacity: .84; }
+.import-warnings { margin: 4px 0 0 18px; padding: 0; font-size: 12px; color: color-mix(in srgb, #b97800 78%, CanvasText); }

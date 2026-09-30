@@ -1,0 +1,591 @@
+{
+  "extensionName": {
+    "message": "YouTube / Twitch 時間標記"
+  },
+  "extensionDescription": {
+    "message": "標記 YouTube／Twitch 影片與直播時間、加入備註，支援 Google Drive 時間軸同步，以及 TXT 匯出／回入。"
+  },
+  "markerTitle": {
+    "message": "時間標記"
+  },
+  "markCurrentTime": {
+    "message": "標記目前時間"
+  },
+  "mark": {
+    "message": "標記"
+  },
+  "currentMarker": {
+    "message": "本次標記"
+  },
+  "currentVideoList": {
+    "message": "本片清單"
+  },
+  "markerSavedHint": {
+    "message": "標記已立即儲存；輸入備註時會自動儲存。"
+  },
+  "notePlaceholder": {
+    "message": "備註：這一段為什麼要記錄？"
+  },
+  "viewCurrentList": {
+    "message": "查看本片清單"
+  },
+  "close": {
+    "message": "關閉"
+  },
+  "updateMarker": {
+    "message": "更新標記"
+  },
+  "exportCurrent": {
+    "message": "匯出 TXT"
+  },
+  "refresh": {
+    "message": "重新整理"
+  },
+  "currentVideoCount": {
+    "message": "目前影片共 $COUNT$ 筆標記",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "noMarkersCurrent": {
+    "message": "這部影片目前還沒有標記。"
+  },
+  "open": {
+    "message": "開啟"
+  },
+  "edit": {
+    "message": "編輯"
+  },
+  "editNote": {
+    "message": "編輯備註"
+  },
+  "export": {
+    "message": "匯出"
+  },
+  "delete": {
+    "message": "刪除"
+  },
+  "confirmDelete": {
+    "message": "確定要刪除這筆標記嗎？"
+  },
+  "noNote": {
+    "message": "（無備註）"
+  },
+  "unnamedVideo": {
+    "message": "未命名影片"
+  },
+  "unknownChannel": {
+    "message": "未知頻道"
+  },
+  "exact": {
+    "message": "精準"
+  },
+  "calibrated": {
+    "message": "校準"
+  },
+  "estimated": {
+    "message": "暫定"
+  },
+  "unknown": {
+    "message": "未知"
+  },
+  "captureFailed": {
+    "message": "無法建立標記：$ERROR$",
+    "placeholders": {
+      "error": {
+        "content": "$1"
+      }
+    }
+  },
+  "noMarkersExport": {
+    "message": "這部影片目前沒有可匯出的標記。"
+  },
+  "liveTimerSource": {
+    "message": "直播計時來源：$SOURCE$ · 頁面顯示 $TIME$$PAUSED$",
+    "placeholders": {
+      "source": {
+        "content": "$1"
+      },
+      "time": {
+        "content": "$2"
+      },
+      "paused": {
+        "content": "$3"
+      }
+    }
+  },
+  "twitchPage": {
+    "message": "Twitch 頁面"
+  },
+  "pausedSuffix": {
+    "message": " · 播放器目前為暫停狀態"
+  },
+  "twitchNoReliableTime": {
+    "message": "目前無法從 Twitch 頁面取得可靠直播經過時間；已停用 HTML video 的失真時間軸。"
+  },
+  "popupTitle": {
+    "message": "時間標記"
+  },
+  "popupSubtitle": {
+    "message": "YouTube / Twitch"
+  },
+  "popupAddCurrent": {
+    "message": "＋ 新增標記"
+  },
+  "popupAddCurrentUnavailable": {
+    "message": "請先開啟支援的 YouTube 或 Twitch 影片。"
+  },
+  "exportAll": {
+    "message": "匯出全部"
+  },
+  "popupEmpty": {
+    "message": "尚未建立標記。請到 YouTube 或 Twitch 播放頁按標記按鈕。"
+  },
+  "creatorFallback": {
+    "message": "未知頻道"
+  },
+  "live": {
+    "message": "live"
+  },
+  "video": {
+    "message": "video"
+  },
+  "vod": {
+    "message": "VOD"
+  },
+  "exportNoMarkers": {
+    "message": "沒有可匯出的標記"
+  },
+  "unknownDate": {
+    "message": "未知日期"
+  },
+  "txtTitle": {
+    "message": "標題"
+  },
+  "txtPlatform": {
+    "message": "平台"
+  },
+  "txtCreator": {
+    "message": "頻道／實況主"
+  },
+  "txtMediaType": {
+    "message": "影片類型"
+  },
+  "txtDate": {
+    "message": "上傳／直播日期"
+  },
+  "txtOriginalUrl": {
+    "message": "原始網址"
+  },
+  "txtNote": {
+    "message": "備註"
+  },
+  "txtTimeUrl": {
+    "message": "時間網址"
+  },
+  "txtCapturedAt": {
+    "message": "標記時間"
+  },
+  "txtAccuracy": {
+    "message": "準確度"
+  },
+  "txtVodStatus": {
+    "message": "VOD 配對狀態"
+  },
+  "txtEstimatedPrefix": {
+    "message": "暫定 "
+  },
+  "adjustTime": {
+    "message": "調整標記時間"
+  },
+  "minusFiveSeconds": {
+    "message": "-5 秒"
+  },
+  "plusFiveSeconds": {
+    "message": "+5 秒"
+  },
+  "deleteCurrentMarker": {
+    "message": "清空本次標記"
+  },
+  "txtMarkerTimeHeading": {
+    "message": "標註時間："
+  },
+  "selectAllMedia": {
+    "message": "全選影片／直播"
+  },
+  "exportSelected": {
+    "message": "匯出選取"
+  },
+  "exportSelectedCount": {
+    "message": "匯出選取（$COUNT$）",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "selectMediaForBatch": {
+    "message": "選取「$TITLE$」進行批次匯出或刪除",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "markerCount": {
+    "message": "$COUNT$ 筆標記",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "expandMedia": {
+    "message": "展開這個影片／直播"
+  },
+  "collapseMedia": {
+    "message": "收合這個影片／直播"
+  },
+  "exportThisMedia": {
+    "message": "匯出本片／直播"
+  },
+  "exportMarker": {
+    "message": "匯出此標記"
+  },
+  "importTxt": {
+    "message": "匯入 TXT"
+  },
+  "importing": {
+    "message": "正在匯入…"
+  },
+  "importSummary": {
+    "message": "匯入完成：新增 $ADDED$、補上備註 $UPDATED$、略過重複 $SKIPPED$、衝突 $CONFLICTS$",
+    "placeholders": {
+      "added": {
+        "content": "$1"
+      },
+      "updated": {
+        "content": "$2"
+      },
+      "skipped": {
+        "content": "$3"
+      },
+      "conflicts": {
+        "content": "$4"
+      }
+    }
+  },
+  "importFailedCount": {
+    "message": "$COUNT$ 個檔案無法匯入",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "importFailedAll": {
+    "message": "沒有可匯入的有效時間標記。請選擇由本插件匯出的 TXT。"
+  },
+  "deleteSelected": {
+    "message": "刪除選取"
+  },
+  "deleteSelectedCount": {
+    "message": "刪除選取（$COUNT$）",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "deleteThisMedia": {
+    "message": "刪除本片／直播"
+  },
+  "confirmDeleteMedia": {
+    "message": "確定要刪除「$TITLE$」的全部 $COUNT$ 筆標記嗎？此動作無法復原。",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      },
+      "count": {
+        "content": "$2"
+      }
+    }
+  },
+  "confirmDeleteSelected": {
+    "message": "確定要刪除選取的 $GROUPS$ 個影片／直播，共 $MARKERS$ 筆標記嗎？此動作無法復原。",
+    "placeholders": {
+      "groups": {
+        "content": "$1"
+      },
+      "markers": {
+        "content": "$2"
+      }
+    }
+  },
+  "importDetails": {
+    "message": "查看每個檔案的詳細結果"
+  },
+  "closeImportReport": {
+    "message": "關閉匯入結果"
+  },
+  "importResultSuccessTitle": {
+    "message": "匯入完成"
+  },
+  "importResultWarningTitle": {
+    "message": "匯入完成，但有需要注意的項目"
+  },
+  "importResultErrorTitle": {
+    "message": "匯入失敗"
+  },
+  "importResultSummary": {
+    "message": "共 $FILES$ 個檔案，讀到 $PARSED$ 筆標記；新增 $ADDED$、補上備註 $UPDATED$、略過重複 $SKIPPED$、衝突 $CONFLICTS$、失敗檔案 $FAILED$",
+    "placeholders": {
+      "files": {
+        "content": "$1"
+      },
+      "parsed": {
+        "content": "$2"
+      },
+      "added": {
+        "content": "$3"
+      },
+      "updated": {
+        "content": "$4"
+      },
+      "skipped": {
+        "content": "$5"
+      },
+      "conflicts": {
+        "content": "$6"
+      },
+      "failed": {
+        "content": "$7"
+      }
+    }
+  },
+  "importFileSuccess": {
+    "message": "格式：$FORMAT$；讀到 $PARSED$ 筆，新增 $ADDED$、補上備註 $UPDATED$、重複 $SKIPPED$、衝突 $CONFLICTS$",
+    "placeholders": {
+      "format": {
+        "content": "$1"
+      },
+      "parsed": {
+        "content": "$2"
+      },
+      "added": {
+        "content": "$3"
+      },
+      "updated": {
+        "content": "$4"
+      },
+      "skipped": {
+        "content": "$5"
+      },
+      "conflicts": {
+        "content": "$6"
+      }
+    }
+  },
+  "importFileFailed": {
+    "message": "失敗原因：$REASON$",
+    "placeholders": {
+      "reason": {
+        "content": "$1"
+      }
+    }
+  },
+  "importFormatCurrent": {
+    "message": "目前版本 VTM TXT"
+  },
+  "importFormatLegacy": {
+    "message": "舊版 VTM TXT"
+  },
+  "importFormatCompatible": {
+    "message": "相容／簡化 TXT"
+  },
+  "importWarningMissingUrl": {
+    "message": "沒有找到原始網址；標記可以匯入，但「開啟」可能無法跳回影片。"
+  },
+  "importWarningUnknownPlatform": {
+    "message": "無法判斷是 YouTube 或 Twitch；請確認 TXT 的平台或網址欄位。"
+  },
+  "importWarningMissingTitle": {
+    "message": "沒有找到標題；將以 TXT 檔名作為影片名稱。"
+  },
+  "importErrorEmptyFile": {
+    "message": "檔案是空的。"
+  },
+  "importErrorNoTimestamps": {
+    "message": "找不到可辨識的時間標記。支援 [49:29]、[1:50:20]、舊版 [暫定 49:29] 等格式。"
+  },
+  "importErrorNoMarkers": {
+    "message": "有讀到檔案內容，但沒有建立出任何有效標記。"
+  },
+  "importErrorGeneric": {
+    "message": "無法解析：$DETAIL$",
+    "placeholders": {
+      "detail": {
+        "content": "$1"
+      }
+    }
+  },
+  "importErrorUnknown": {
+    "message": "未知錯誤"
+  },
+  "openReuseHint": {
+    "message": "開啟時間點；若已有同一部影片／直播分頁，會直接重用該分頁。"
+  },
+  "importPageTitle": {
+    "message": "匯入 TXT 時間標記"
+  },
+  "importPageDescription": {
+    "message": "選擇由 Video Timeline Marker 匯出的 TXT，時間點與備註會安全合併回目前的 Popup 資料。每個檔案都會顯示成功、失敗或重複原因。"
+  },
+  "importPageSupported": {
+    "message": "支援目前格式、v0.1.x～v0.2.1 舊版格式，以及獨立的 [49:29]、[1:50:20]、49:29、1:50:20 時間行。"
+  },
+  "importChooseFiles": {
+    "message": "選擇 TXT 檔案"
+  },
+  "importCloseWindow": {
+    "message": "完成／關閉"
+  },
+  "importErrorStorage": {
+    "message": "無法寫入 Firefox 本機儲存空間：$DETAIL$",
+    "placeholders": {
+      "detail": {
+        "content": "$1"
+      }
+    }
+  },
+  "importStorageFailureSummary": {
+    "message": "檔案已解析，但資料沒有寫入成功。$DETAIL$",
+    "placeholders": {
+      "detail": {
+        "content": "$1"
+      }
+    }
+  },
+  "syncTitle": {
+    "message": "Google Drive 同步"
+  },
+  "syncAuto": {
+    "message": "自動同步"
+  },
+  "syncNow": {
+    "message": "立即同步"
+  },
+  "syncDisconnect": {
+    "message": "中斷連線"
+  },
+  "syncSetupHelp": {
+    "message": "登入您的 Google 帳號即可啟用同步。本插件只要求 Google Drive 應用程式資料範圍，不會讀取一般雲端硬碟檔案。"
+  },
+  "syncConnect": {
+    "message": "連接 Google Drive"
+  },
+  "syncStatusConnected": {
+    "message": "已連線"
+  },
+  "syncStatusSyncing": {
+    "message": "同步中…"
+  },
+  "syncStatusConnecting": {
+    "message": "連線中…"
+  },
+  "syncStatusError": {
+    "message": "需要處理"
+  },
+  "syncStatusOff": {
+    "message": "未啟用"
+  },
+  "syncSummaryConnected": {
+    "message": "Google Drive 同步已啟用 · $1 筆標記"
+  },
+  "syncSummaryDisconnected": {
+    "message": "尚未連接 Google Drive；目前標記只保存在這台裝置。"
+  },
+  "syncLast": {
+    "message": "上次同步：$1"
+  },
+  "syncNever": {
+    "message": "尚未同步"
+  },
+  "syncConfirmDisconnect": {
+    "message": "要中斷 Google Drive 同步嗎？本機時間標記會保留在這台裝置。"
+  },
+  "syncDuplicateWarning": {
+    "message": "偵測到 $1 個重複的雲端同步檔"
+  },
+  "syncErrorInvalidClientId": {
+    "message": "此版本的 Google OAuth 設定無效，請更新插件或聯絡開發者。"
+  },
+  "syncErrorNotConnected": {
+    "message": "尚未連接 Google Drive 同步。"
+  },
+  "syncErrorAuthorizationExpired": {
+    "message": "Google 授權已失效或被撤銷，請重新連線。"
+  },
+  "syncErrorScope": {
+    "message": "未取得 Google Drive 應用程式資料權限。"
+  },
+  "syncErrorRefreshToken": {
+    "message": "Google 沒有回傳 refresh token，請重新連線並再次同意授權。"
+  },
+  "syncErrorOauthState": {
+    "message": "無法驗證 OAuth 回應，請重新嘗試連線。"
+  },
+  "syncErrorOauthCode": {
+    "message": "Google 沒有回傳授權碼，請重新嘗試。"
+  },
+  "syncErrorAccessDenied": {
+    "message": "Google 未核發授權碼。若你沒有按取消，請確認這次選擇的 Google 帳號已加入 OAuth Test users；Workspace / 受監護帳號也可能被政策限制。"
+  },
+  "syncErrorCloudInvalid": {
+    "message": "雲端同步檔不是有效的 JSON，本機標記沒有被覆蓋。"
+  },
+  "syncErrorSchema": {
+    "message": "雲端同步檔來自較新的不支援格式，本機標記沒有被覆蓋。"
+  },
+  "syncErrorDrive": {
+    "message": "無法讀取或更新 Google Drive，請確認此 OAuth 專案已啟用 Google Drive API。"
+  },
+  "syncErrorGeneric": {
+    "message": "Google Drive 同步失敗，請稍後重試。"
+  },
+  "syncErrorDataPermission": {
+    "message": "尚未授予 Firefox「將同步資料傳送至擴充功能外部」的權限，因此 Google Drive 同步維持關閉。"
+  },
+  "syncErrorOauthLaunch": {
+    "message": "Firefox 無法啟動 Google 授權流程。請確認 OAuth 用戶端類型為「電腦版應用程式」後再試一次。"
+  },
+  "syncErrorRedirectUri": {
+    "message": "Google 拒絕了 OAuth 重新導向 URI。請確認 OAuth 用戶端類型是「電腦版應用程式」後重新連線。"
+  },
+  "syncErrorInvalidRequest": {
+    "message": "Google 拒絕了 OAuth 授權要求。請檢查 OAuth 用戶端設定後再試一次。"
+  },
+  "syncErrorInvalidClient": {
+    "message": "目前設定的 Google OAuth 用戶端無效或已被刪除，請更新插件的 OAuth 設定。"
+  },
+  "syncErrorAccountPolicy": {
+    "message": "這個 Google 帳號或所屬組織的政策不允許使用此 OAuth 應用程式。"
+  },
+  "syncErrorUserAgent": {
+    "message": "Google 拒絕目前用來授權的瀏覽器環境。請更新 Firefox 後再試一次。"
+  },
+  "syncErrorOauthCancelled": {
+    "message": "Google 授權在收到回呼前被取消。"
+  },
+  "syncErrorOauthTimeout": {
+    "message": "Google 授權逾時，請重新嘗試連線。"
+  },
+  "syncErrorOauthFallback": {
+    "message": "目前這個 Firefox 系瀏覽器無法完成 OAuth 相容回呼，請更新瀏覽器後再試。"
+  },
+  "syncErrorProviderDetail": {
+    "message": "服務商詳細資訊"
+  }
+}

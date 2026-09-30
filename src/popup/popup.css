@@ -1,0 +1,236 @@
+:root { color-scheme: light dark; }
+html, body { width: 440px; min-width: 440px; max-width: 440px; height: 600px; min-height: 600px; margin: 0; }
+body { display: flex; flex-direction: column; font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; background: Canvas; color: CanvasText; overflow: hidden; }
+header { flex: 0 0 auto; z-index: 3; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px; border-bottom: 1px solid color-mix(in srgb, CanvasText 14%, transparent); background: Canvas; }
+.brand { display: flex; align-items: center; gap: 9px; min-width: 0; }
+.brand-icon { width: 36px; height: 36px; border-radius: 9px; flex: 0 0 auto; }
+h1 { font-size: 17px; margin: 0; }
+header p { margin: 2px 0 0; opacity: .6; font-size: 12px; }
+button { border: 1px solid color-mix(in srgb, CanvasText 18%, transparent); border-radius: 8px; padding: 7px 10px; background: ButtonFace; color: ButtonText; cursor: pointer; }
+button:disabled { opacity: .45; cursor: default; }
+.header-actions, .batch-actions { display: flex; align-items: center; justify-content: flex-end; gap: 6px; flex-wrap: wrap; }
+.header-actions button { white-space: nowrap; padding: 6px 8px; font-size: 12px; }
+.sync-toolbar-button {
+  position: relative;
+  width: 34px;
+  min-width: 34px;
+  height: 30px;
+  padding: 0 !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+}
+.sync-toolbar-icon { font-size: 16px; line-height: 1; }
+.sync-toolbar-indicator {
+  position: absolute;
+  right: 3px;
+  top: 3px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: color-mix(in srgb, CanvasText 28%, transparent);
+  box-shadow: 0 0 0 1px Canvas;
+}
+.sync-toolbar-indicator[data-state="connected"] { background: #2a9d5b; }
+.sync-toolbar-indicator[data-state="syncing"] { background: Highlight; }
+.sync-toolbar-indicator[data-state="error"] { background: #d33; }
+.sync-toolbar-button[data-state="error"] { border-color: color-mix(in srgb, #d33 65%, transparent); }
+.sync-toolbar-button[data-state="connected"] { border-color: color-mix(in srgb, #2a9d5b 55%, transparent); }
+#add-marker-current:not(:disabled) { font-weight: 700; border-color: color-mix(in srgb, Highlight 60%, transparent); }
+.batch-toolbar { flex: 0 0 auto; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 10px; border-bottom: 1px solid color-mix(in srgb, CanvasText 12%, transparent); background: color-mix(in srgb, Canvas 96%, CanvasText 4%); }
+.select-all-wrap { display: inline-flex; align-items: center; gap: 7px; min-width: 0; font-size: 12px; cursor: pointer; }
+.select-all-wrap input, .group-select-wrap input { width: 16px; height: 16px; margin: 0; accent-color: #7c5cff; }
+#export-selected, #delete-selected { white-space: nowrap; padding: 6px 8px; font-size: 12px; }
+
+main { flex: 1 1 auto; min-height: 0; padding: 10px; overflow: auto; }
+.media-group { border: 2px solid color-mix(in srgb, CanvasText 18%, transparent); border-radius: 14px; margin-bottom: 11px; overflow: hidden; }
+.group-header {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas:
+    "select info"
+    "actions actions";
+  align-items: start;
+  column-gap: 9px;
+  row-gap: 8px;
+  padding: 11px;
+  background: color-mix(in srgb, Canvas 94%, CanvasText 6%);
+  border-bottom: 1px solid color-mix(in srgb, CanvasText 12%, transparent);
+}
+.group-select-wrap { grid-area: select; padding-top: 3px; cursor: pointer; }
+.group-info { grid-area: info; min-width: 0; }
+.group-title-row {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  align-items: start;
+  column-gap: 6px;
+  row-gap: 2px;
+  min-width: 0;
+}
+.group-toggle { width: 28px; height: 28px; padding: 0; margin: -4px 0 0 -4px; display: inline-flex; align-items: center; justify-content: center; border-color: transparent; background: transparent; color: inherit; border-radius: 7px; }
+.group-toggle:hover { background: color-mix(in srgb, CanvasText 8%, transparent); }
+.group-toggle:focus-visible { outline: 2px solid Highlight; outline-offset: 1px; }
+.group-toggle-icon { display: inline-block; font-size: 17px; line-height: 1; transition: transform 140ms ease; transform-origin: 50% 50%; }
+.media-group.is-collapsed .group-toggle-icon { transform: rotate(-90deg); }
+.group-title {
+  grid-column: 2;
+  display: block;
+  min-width: 0;
+  font-size: 14px;
+  line-height: 1.4;
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+.group-badge {
+  grid-column: 2;
+  justify-self: start;
+  white-space: nowrap;
+  font-size: 11px;
+  line-height: 1.3;
+  opacity: .78;
+}
+.group-meta { font-size: 12px; opacity: .65; margin: 5px 0 0 34px; overflow-wrap: break-word; }
+.group-actions {
+  grid-area: actions;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  flex-wrap: nowrap;
+  max-width: none;
+  padding-left: 34px;
+}
+.group-export, .group-delete { white-space: nowrap; padding: 5px 8px; font-size: 11px; }
+.group-markers { padding: 8px; display: grid; gap: 8px; }
+.item {
+  position: relative;
+  border: 1px solid color-mix(in srgb, CanvasText 14%, transparent);
+  border-radius: 10px;
+  padding: 10px;
+  min-height: 70px;
+  overflow: visible;
+}
+.row { display: flex; gap: 8px; align-items: flex-start; justify-content: space-between; }
+.time { font-size: 21px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.badge { white-space: nowrap; font-size: 11px; opacity: .7; }
+.note { white-space: pre-wrap; margin-top: 4px; padding-right: 6px; }
+
+/* Marker actions stay out of the document flow on mouse/trackpad devices so
+   repeated controls do not consume vertical popup space. Hovering a marker,
+   or tabbing into one of its controls, reveals the action tray. */
+@media (hover: hover) and (pointer: fine) {
+  .item .actions {
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+    z-index: 2;
+    display: flex;
+    gap: 6px;
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+    margin: 0;
+    padding: 6px;
+    border: 1px solid color-mix(in srgb, CanvasText 14%, transparent);
+    border-radius: 9px;
+    background: color-mix(in srgb, Canvas 94%, CanvasText 6%);
+    box-shadow: 0 5px 18px color-mix(in srgb, CanvasText 16%, transparent);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(4px);
+    transition: opacity 120ms ease, transform 120ms ease, visibility 0s linear 120ms;
+  }
+  .item:hover .actions,
+  .item:focus-within .actions {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+    transition-delay: 0s;
+  }
+  .item .actions button {
+    white-space: nowrap;
+    padding: 6px 9px;
+    font-size: 12px;
+  }
+}
+
+/* Touch / coarse-pointer environments have no reliable hover state, so keep
+   the controls in flow there rather than making marker actions inaccessible. */
+@media (hover: none), (pointer: coarse) {
+  .actions { display: flex; gap: 7px; justify-content: flex-end; margin-top: 10px; flex-wrap: wrap; }
+}
+.danger { color: #d33; }
+.app-footer { flex: 0 0 auto; padding: 4px 10px; text-align: center; font-size: 11px; opacity: .6; border-top: 1px solid color-mix(in srgb, currentColor 15%, transparent); }
+.empty { padding: 28px 12px; text-align: center; opacity: .65; }
+
+/* Platform identity: whole media groups use platform colors for fast scanning. */
+.media-group[data-platform="twitch"] { border-color: #9147ff; box-shadow: inset 0 0 0 1px color-mix(in srgb, #9147ff 14%, transparent); }
+.media-group[data-platform="youtube"] { border-color: #ff0033; box-shadow: inset 0 0 0 1px color-mix(in srgb, #ff0033 12%, transparent); }
+.media-group[data-platform="twitch"] .group-badge, .media-group[data-platform="twitch"] .badge { color: #bf94ff; opacity: 1; }
+.media-group[data-platform="youtube"] .group-badge, .media-group[data-platform="youtube"] .badge { color: #ff6b82; opacity: 1; }
+
+/* Persistent import result: remains visible when the popup is reopened after the native file picker. */
+.import-report { flex: 0 0 auto; margin: 8px 10px 0; border: 1px solid color-mix(in srgb, CanvasText 16%, transparent); border-radius: 10px; padding: 9px 10px; font-size: 12px; background: color-mix(in srgb, Canvas 96%, CanvasText 4%); }
+.import-report[data-state="success"] { border-color: color-mix(in srgb, #2a9d5b 55%, transparent); background: color-mix(in srgb, #2a9d5b 9%, Canvas); }
+.import-report[data-state="warning"] { border-color: color-mix(in srgb, #d59a00 62%, transparent); background: color-mix(in srgb, #d59a00 10%, Canvas); }
+.import-report[data-state="error"] { border-color: color-mix(in srgb, #d33 58%, transparent); background: color-mix(in srgb, #d33 9%, Canvas); }
+.import-report-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.import-report-copy { min-width: 0; }
+#import-report-title { display: block; font-size: 13px; margin-bottom: 2px; }
+#import-report-summary { line-height: 1.45; opacity: .9; }
+.import-report-close { flex: 0 0 auto; width: 26px; height: 26px; padding: 0; border-radius: 7px; font-size: 17px; line-height: 1; }
+#import-report-details { margin-top: 6px; }
+#import-report-details > summary { cursor: pointer; font-weight: 650; user-select: none; }
+#import-report-files { display: grid; gap: 6px; margin-top: 7px; max-height: 170px; overflow: auto; }
+.import-file-result { border-top: 1px solid color-mix(in srgb, CanvasText 10%, transparent); padding-top: 6px; overflow-wrap: anywhere; }
+.import-file-result:first-child { border-top: 0; padding-top: 0; }
+.import-file-result.is-failed > strong { color: color-mix(in srgb, #d33 82%, CanvasText); }
+.import-file-summary { margin-top: 2px; opacity: .84; }
+.import-warnings { margin: 4px 0 0 18px; padding: 0; color: color-mix(in srgb, #b97800 78%, CanvasText); }
+
+
+/* Collapsible media groups: keep the header/actions visible while hiding long marker lists. */
+.group-markers[hidden] { display: none !important; }
+.media-group.is-collapsed .group-header { border-bottom: 0; }
+@media (prefers-reduced-motion: reduce) { .group-toggle-icon { transition: none; } }
+
+/* Google Drive synchronization */
+.sync-panel {
+  flex: 0 0 auto;
+  margin: 8px 10px 0;
+  border: 1px solid color-mix(in srgb, CanvasText 16%, transparent);
+  border-radius: 12px;
+  padding: 10px;
+  background: color-mix(in srgb, Canvas 96%, CanvasText 4%);
+}
+.sync-header, .sync-controls { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.sync-header-actions { display: inline-flex; align-items: center; gap: 6px; }
+.sync-panel-close { width: 28px; height: 28px; padding: 0; border-color: transparent; background: transparent; font-size: 18px; line-height: 1; }
+.sync-panel-close:hover { background: color-mix(in srgb, CanvasText 8%, transparent); }
+.sync-heading { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.sync-cloud { font-size: 18px; line-height: 1; opacity: .9; }
+.sync-heading strong { display: block; font-size: 13px; }
+.sync-summary, .sync-last, .sync-help { font-size: 11px; opacity: .72; line-height: 1.45; }
+.sync-status-badge {
+  flex: 0 0 auto;
+  border: 1px solid color-mix(in srgb, CanvasText 16%, transparent);
+  border-radius: 999px;
+  padding: 3px 7px;
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.sync-status-badge[data-state="connected"] { border-color: color-mix(in srgb, #2a9d5b 60%, transparent); color: #2a9d5b; }
+.sync-status-badge[data-state="syncing"] { border-color: color-mix(in srgb, Highlight 65%, transparent); color: Highlight; }
+.sync-status-badge[data-state="error"] { border-color: color-mix(in srgb, #d33 60%, transparent); color: #d33; }
+.sync-connected { margin-top: 9px; padding-top: 9px; border-top: 1px solid color-mix(in srgb, CanvasText 10%, transparent); }
+.sync-toggle { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; cursor: pointer; }
+.sync-toggle input { width: 16px; height: 16px; margin: 0; accent-color: #7c5cff; }
+.sync-actions { display: flex; align-items: center; gap: 6px; }
+.sync-actions button, #sync-connect { padding: 5px 8px; font-size: 11px; }
+.sync-last { margin-top: 7px; }
+.sync-setup { margin-top: 8px; border-top: 1px solid color-mix(in srgb, CanvasText 10%, transparent); padding-top: 8px; }
+.sync-help { margin: 7px 0; }
+.sync-error { min-height: 1.2em; margin-top: 6px; font-size: 11px; color: #d33; }

@@ -1,0 +1,591 @@
+{
+  "extensionName": {
+    "message": "Video Timeline Marker for YouTube & Twitch"
+  },
+  "extensionDescription": {
+    "message": "Mark YouTube/Twitch video and stream timestamps, add notes, sync timelines with Google Drive, and export or re-import TXT timelines."
+  },
+  "markerTitle": {
+    "message": "Timeline Marker"
+  },
+  "markCurrentTime": {
+    "message": "Mark current time"
+  },
+  "mark": {
+    "message": "Mark"
+  },
+  "currentMarker": {
+    "message": "Current marker"
+  },
+  "currentVideoList": {
+    "message": "This video"
+  },
+  "markerSavedHint": {
+    "message": "Marker saved. Notes are saved automatically as you type."
+  },
+  "notePlaceholder": {
+    "message": "Note: Why did you save this moment?"
+  },
+  "viewCurrentList": {
+    "message": "View this video's markers"
+  },
+  "close": {
+    "message": "Close"
+  },
+  "updateMarker": {
+    "message": "Update marker"
+  },
+  "exportCurrent": {
+    "message": "Export TXT"
+  },
+  "refresh": {
+    "message": "Refresh"
+  },
+  "currentVideoCount": {
+    "message": "$COUNT$ markers for this video",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "noMarkersCurrent": {
+    "message": "There are no markers for this video yet."
+  },
+  "open": {
+    "message": "Open"
+  },
+  "edit": {
+    "message": "Edit"
+  },
+  "editNote": {
+    "message": "Edit note"
+  },
+  "export": {
+    "message": "Export"
+  },
+  "delete": {
+    "message": "Delete"
+  },
+  "confirmDelete": {
+    "message": "Delete this marker?"
+  },
+  "noNote": {
+    "message": "(No note)"
+  },
+  "unnamedVideo": {
+    "message": "Untitled video"
+  },
+  "unknownChannel": {
+    "message": "Unknown channel"
+  },
+  "exact": {
+    "message": "Exact"
+  },
+  "calibrated": {
+    "message": "Calibrated"
+  },
+  "estimated": {
+    "message": "Estimated"
+  },
+  "unknown": {
+    "message": "Unknown"
+  },
+  "captureFailed": {
+    "message": "Unable to create marker: $ERROR$",
+    "placeholders": {
+      "error": {
+        "content": "$1"
+      }
+    }
+  },
+  "noMarkersExport": {
+    "message": "There are no markers for this video to export."
+  },
+  "liveTimerSource": {
+    "message": "Live timer source: $SOURCE$ · page shows $TIME$$PAUSED$",
+    "placeholders": {
+      "source": {
+        "content": "$1"
+      },
+      "time": {
+        "content": "$2"
+      },
+      "paused": {
+        "content": "$3"
+      }
+    }
+  },
+  "twitchPage": {
+    "message": "Twitch page"
+  },
+  "pausedSuffix": {
+    "message": " · player is paused"
+  },
+  "twitchNoReliableTime": {
+    "message": "A reliable Twitch live elapsed time could not be read; the distorted HTML video timeline is disabled."
+  },
+  "popupTitle": {
+    "message": "Timeline Marker"
+  },
+  "popupSubtitle": {
+    "message": "YouTube / Twitch"
+  },
+  "popupAddCurrent": {
+    "message": "＋ Add marker"
+  },
+  "popupAddCurrentUnavailable": {
+    "message": "Open a supported YouTube or Twitch video first."
+  },
+  "exportAll": {
+    "message": "Export all"
+  },
+  "popupEmpty": {
+    "message": "No markers yet. Open a YouTube or Twitch video and click the marker button."
+  },
+  "creatorFallback": {
+    "message": "Unknown channel"
+  },
+  "live": {
+    "message": "live"
+  },
+  "video": {
+    "message": "video"
+  },
+  "vod": {
+    "message": "VOD"
+  },
+  "exportNoMarkers": {
+    "message": "There are no markers to export."
+  },
+  "unknownDate": {
+    "message": "unknown-date"
+  },
+  "txtTitle": {
+    "message": "Title"
+  },
+  "txtPlatform": {
+    "message": "Platform"
+  },
+  "txtCreator": {
+    "message": "Channel / streamer"
+  },
+  "txtMediaType": {
+    "message": "Media type"
+  },
+  "txtDate": {
+    "message": "Upload / live date"
+  },
+  "txtOriginalUrl": {
+    "message": "Original URL"
+  },
+  "txtNote": {
+    "message": "Note"
+  },
+  "txtTimeUrl": {
+    "message": "Timestamp URL"
+  },
+  "txtCapturedAt": {
+    "message": "Marked at"
+  },
+  "txtAccuracy": {
+    "message": "Accuracy"
+  },
+  "txtVodStatus": {
+    "message": "VOD resolution status"
+  },
+  "txtEstimatedPrefix": {
+    "message": "Estimated "
+  },
+  "adjustTime": {
+    "message": "Adjust marker time"
+  },
+  "minusFiveSeconds": {
+    "message": "-5 sec"
+  },
+  "plusFiveSeconds": {
+    "message": "+5 sec"
+  },
+  "deleteCurrentMarker": {
+    "message": "Clear current marker"
+  },
+  "txtMarkerTimeHeading": {
+    "message": "Marked times:"
+  },
+  "selectAllMedia": {
+    "message": "Select all videos / streams"
+  },
+  "exportSelected": {
+    "message": "Export selected"
+  },
+  "exportSelectedCount": {
+    "message": "Export selected ($COUNT$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "selectMediaForBatch": {
+    "message": "Select “$TITLE$” for batch export or deletion",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      }
+    }
+  },
+  "markerCount": {
+    "message": "$COUNT$ markers",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "expandMedia": {
+    "message": "Expand this video / stream"
+  },
+  "collapseMedia": {
+    "message": "Collapse this video / stream"
+  },
+  "exportThisMedia": {
+    "message": "Export this video / stream"
+  },
+  "exportMarker": {
+    "message": "Export marker"
+  },
+  "importTxt": {
+    "message": "Import TXT"
+  },
+  "importing": {
+    "message": "Importing…"
+  },
+  "importSummary": {
+    "message": "Import complete: $ADDED$ added, $UPDATED$ notes restored, $SKIPPED$ duplicates skipped, $CONFLICTS$ conflicts",
+    "placeholders": {
+      "added": {
+        "content": "$1"
+      },
+      "updated": {
+        "content": "$2"
+      },
+      "skipped": {
+        "content": "$3"
+      },
+      "conflicts": {
+        "content": "$4"
+      }
+    }
+  },
+  "importFailedCount": {
+    "message": "$COUNT$ file(s) could not be imported",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "importFailedAll": {
+    "message": "No valid timeline markers were found. Choose TXT files exported by this extension."
+  },
+  "deleteSelected": {
+    "message": "Delete selected"
+  },
+  "deleteSelectedCount": {
+    "message": "Delete selected ($COUNT$)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "deleteThisMedia": {
+    "message": "Delete this video/stream"
+  },
+  "confirmDeleteMedia": {
+    "message": "Delete all $COUNT$ markers from “$TITLE$”? This cannot be undone.",
+    "placeholders": {
+      "title": {
+        "content": "$1"
+      },
+      "count": {
+        "content": "$2"
+      }
+    }
+  },
+  "confirmDeleteSelected": {
+    "message": "Delete $GROUPS$ selected video/stream group(s), containing $MARKERS$ markers total? This cannot be undone.",
+    "placeholders": {
+      "groups": {
+        "content": "$1"
+      },
+      "markers": {
+        "content": "$2"
+      }
+    }
+  },
+  "importDetails": {
+    "message": "Show per-file details"
+  },
+  "closeImportReport": {
+    "message": "Dismiss import result"
+  },
+  "importResultSuccessTitle": {
+    "message": "Import complete"
+  },
+  "importResultWarningTitle": {
+    "message": "Import complete with items to review"
+  },
+  "importResultErrorTitle": {
+    "message": "Import failed"
+  },
+  "importResultSummary": {
+    "message": "$FILES$ file(s), $PARSED$ marker(s) read; $ADDED$ added, $UPDATED$ notes restored, $SKIPPED$ duplicates skipped, $CONFLICTS$ conflicts, $FAILED$ file(s) failed",
+    "placeholders": {
+      "files": {
+        "content": "$1"
+      },
+      "parsed": {
+        "content": "$2"
+      },
+      "added": {
+        "content": "$3"
+      },
+      "updated": {
+        "content": "$4"
+      },
+      "skipped": {
+        "content": "$5"
+      },
+      "conflicts": {
+        "content": "$6"
+      },
+      "failed": {
+        "content": "$7"
+      }
+    }
+  },
+  "importFileSuccess": {
+    "message": "Format: $FORMAT$; $PARSED$ read, $ADDED$ added, $UPDATED$ notes restored, $SKIPPED$ duplicates, $CONFLICTS$ conflicts",
+    "placeholders": {
+      "format": {
+        "content": "$1"
+      },
+      "parsed": {
+        "content": "$2"
+      },
+      "added": {
+        "content": "$3"
+      },
+      "updated": {
+        "content": "$4"
+      },
+      "skipped": {
+        "content": "$5"
+      },
+      "conflicts": {
+        "content": "$6"
+      }
+    }
+  },
+  "importFileFailed": {
+    "message": "Reason: $REASON$",
+    "placeholders": {
+      "reason": {
+        "content": "$1"
+      }
+    }
+  },
+  "importFormatCurrent": {
+    "message": "current VTM TXT"
+  },
+  "importFormatLegacy": {
+    "message": "legacy VTM TXT"
+  },
+  "importFormatCompatible": {
+    "message": "compatible / simplified TXT"
+  },
+  "importWarningMissingUrl": {
+    "message": "No original URL was found. Markers can be imported, but Open may not return to the video."
+  },
+  "importWarningUnknownPlatform": {
+    "message": "Could not determine YouTube or Twitch. Check the Platform or Original URL field."
+  },
+  "importWarningMissingTitle": {
+    "message": "No title was found. The TXT filename will be used as the media title."
+  },
+  "importErrorEmptyFile": {
+    "message": "The file is empty."
+  },
+  "importErrorNoTimestamps": {
+    "message": "No recognizable marker timestamps were found. Supported examples include [49:29], [1:50:20], and legacy [Estimated 49:29]."
+  },
+  "importErrorNoMarkers": {
+    "message": "The file was read, but no valid markers could be created."
+  },
+  "importErrorGeneric": {
+    "message": "Could not parse: $DETAIL$",
+    "placeholders": {
+      "detail": {
+        "content": "$1"
+      }
+    }
+  },
+  "importErrorUnknown": {
+    "message": "Unknown error"
+  },
+  "openReuseHint": {
+    "message": "Open this timestamp. If the same YouTube/Twitch media is already open, that tab will be reused."
+  },
+  "importPageTitle": {
+    "message": "Import TXT Timeline Markers"
+  },
+  "importPageDescription": {
+    "message": "Choose TXT files exported by Video Timeline Marker. Timestamps and notes are safely merged back into the popup data, with a clear per-file success, failure, duplicate, or conflict result."
+  },
+  "importPageSupported": {
+    "message": "Supports the current format, legacy v0.1.x–v0.2.1 exports, and standalone [49:29], [1:50:20], 49:29, or 1:50:20 timestamp lines."
+  },
+  "importChooseFiles": {
+    "message": "Choose TXT files"
+  },
+  "importCloseWindow": {
+    "message": "Done / Close"
+  },
+  "importErrorStorage": {
+    "message": "Could not write to Firefox local storage: $DETAIL$",
+    "placeholders": {
+      "detail": {
+        "content": "$1"
+      }
+    }
+  },
+  "importStorageFailureSummary": {
+    "message": "The files were parsed, but the data was not saved. $DETAIL$",
+    "placeholders": {
+      "detail": {
+        "content": "$1"
+      }
+    }
+  },
+  "syncTitle": {
+    "message": "Google Drive sync"
+  },
+  "syncAuto": {
+    "message": "Auto sync"
+  },
+  "syncNow": {
+    "message": "Sync now"
+  },
+  "syncDisconnect": {
+    "message": "Disconnect"
+  },
+  "syncSetupHelp": {
+    "message": "Sign in with your Google account to enable sync. The extension requests only the Google Drive app-data scope and cannot read normal Drive files."
+  },
+  "syncConnect": {
+    "message": "Connect Google Drive"
+  },
+  "syncStatusConnected": {
+    "message": "Connected"
+  },
+  "syncStatusSyncing": {
+    "message": "Syncing…"
+  },
+  "syncStatusConnecting": {
+    "message": "Connecting…"
+  },
+  "syncStatusError": {
+    "message": "Needs attention"
+  },
+  "syncStatusOff": {
+    "message": "Off"
+  },
+  "syncSummaryConnected": {
+    "message": "Google Drive sync is active · $1 markers"
+  },
+  "syncSummaryDisconnected": {
+    "message": "Your markers stay local until Google Drive sync is connected."
+  },
+  "syncLast": {
+    "message": "Last sync: $1"
+  },
+  "syncNever": {
+    "message": "Never"
+  },
+  "syncConfirmDisconnect": {
+    "message": "Disconnect Google Drive sync? Local timeline markers will remain on this device."
+  },
+  "syncDuplicateWarning": {
+    "message": "$1 duplicate cloud file(s) detected"
+  },
+  "syncErrorInvalidClientId": {
+    "message": "This build has an invalid Google OAuth configuration. Update the extension or contact the developer."
+  },
+  "syncErrorNotConnected": {
+    "message": "Google Drive sync is not connected."
+  },
+  "syncErrorAuthorizationExpired": {
+    "message": "Google authorization expired or was revoked. Connect again."
+  },
+  "syncErrorScope": {
+    "message": "Google Drive app-data permission was not granted."
+  },
+  "syncErrorRefreshToken": {
+    "message": "Google did not return a refresh token. Reconnect and approve access again."
+  },
+  "syncErrorOauthState": {
+    "message": "The OAuth response could not be verified. Please try connecting again."
+  },
+  "syncErrorOauthCode": {
+    "message": "Google did not return an authorization code. Please try again."
+  },
+  "syncErrorAccessDenied": {
+    "message": "Google did not issue an authorization code. If you did not cancel, make sure the selected Google account is an OAuth test user; Workspace or supervised-account policy can also block access."
+  },
+  "syncErrorCloudInvalid": {
+    "message": "The cloud sync file is not valid JSON. Local markers were not overwritten."
+  },
+  "syncErrorSchema": {
+    "message": "The cloud sync file was created by an unsupported newer schema. Local markers were not overwritten."
+  },
+  "syncErrorDrive": {
+    "message": "Google Drive could not be read or updated. Check that Drive API is enabled for this OAuth client."
+  },
+  "syncErrorGeneric": {
+    "message": "Google Drive sync failed. Please try again."
+  },
+  "syncErrorDataPermission": {
+    "message": "Firefox permission to send sync data outside the extension was not granted. Google Drive sync stays off."
+  },
+  "syncErrorOauthLaunch": {
+    "message": "Firefox could not start the Google authorization flow. Check that the OAuth client is a Desktop app and try again."
+  },
+  "syncErrorRedirectUri": {
+    "message": "Google rejected the OAuth redirect URI. Confirm the OAuth client type is Desktop app and reconnect."
+  },
+  "syncErrorInvalidRequest": {
+    "message": "Google rejected the OAuth authorization request. Check the OAuth client configuration and try again."
+  },
+  "syncErrorInvalidClient": {
+    "message": "The configured Google OAuth client is invalid or has been deleted. Please update the extension OAuth configuration."
+  },
+  "syncErrorAccountPolicy": {
+    "message": "This Google account or organization policy does not allow this OAuth app."
+  },
+  "syncErrorUserAgent": {
+    "message": "Google rejected the browser used for authorization. Please update Firefox and try again."
+  },
+  "syncErrorOauthCancelled": {
+    "message": "Google authorization was cancelled before the callback was received."
+  },
+  "syncErrorOauthTimeout": {
+    "message": "Google authorization timed out. Please try connecting again."
+  },
+  "syncErrorOauthFallback": {
+    "message": "This Firefox-based browser could not complete the OAuth compatibility callback. Please update the browser and try again."
+  },
+  "syncErrorProviderDetail": {
+    "message": "Provider detail"
+  }
+}

@@ -1,0 +1,768 @@
+#vtm-root, #vtm-root *, #vtm-mark-button, #vtm-mark-button *, #vtm-mark-button-fullscreen, #vtm-mark-button-fullscreen *, #vtm-twitch-button-slot, #vtm-twitch-button-slot *, #vtm-youtube-owner-slot, #vtm-youtube-owner-slot * { box-sizing: border-box; }
+#vtm-root { position: fixed; inset: 0 auto auto 0; width: 0; height: 0; z-index: 2147483647; pointer-events: none; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+#vtm-mark-button.vtm-inline-mounted { position: relative; display: inline-flex; align-items: center; flex: 0 0 auto; z-index: 2147483646; }
+#vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted { margin-left: 8px; }
+#vtm-mark-button.vtm-platform-twitch.vtm-inline-mounted { margin: 0; align-self: center; }
+#vtm-mark-button.vtm-fallback-mounted { position: fixed; right: 20px; bottom: 88px; z-index: 2147483646; }
+
+#vtm-twitch-button-slot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  align-self: center;
+  min-width: 0;
+}
+
+#vtm-youtube-owner-slot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  min-width: 0;
+  margin-left: 8px;
+}
+#vtm-youtube-owner-slot > #vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted {
+  margin-left: 0 !important;
+}
+
+#vtm-mark-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 18px;
+  background: rgba(255,255,255,.12);
+  color: inherit;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* YouTube：外框尺寸直接同步原生 Share 按鈕。
+   上/下半只保留很淡的透明明暗差，避免與 YouTube tonal button 對比過強。 */
+#vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted {
+  width: var(--vtm-yt-width, auto);
+  height: var(--vtm-yt-height, 36px);
+  min-width: var(--vtm-yt-width, auto);
+  min-height: var(--vtm-yt-height, 36px);
+  max-width: var(--vtm-yt-width, none);
+  max-height: var(--vtm-yt-height, none);
+  padding: 0;
+  border-radius: var(--vtm-yt-radius, 18px);
+  font-size: var(--vtm-yt-font-size, 14px);
+  font-weight: var(--vtm-yt-font-weight, 500);
+  color: #0f0f0f;
+  background:
+    linear-gradient(to bottom,
+      rgba(255,255,255,.16) 0%,
+      rgba(255,255,255,.07) 49%,
+      rgba(0,0,0,.012) 51%,
+      rgba(0,0,0,.035) 100%),
+    rgba(0,0,0,.055);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.18),
+    inset 0 -1px 0 rgba(0,0,0,.035);
+  transform: none;
+}
+#vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted:hover {
+  background:
+    linear-gradient(to bottom,
+      rgba(255,255,255,.18) 0%,
+      rgba(255,255,255,.08) 49%,
+      rgba(0,0,0,.015) 51%,
+      rgba(0,0,0,.045) 100%),
+    rgba(0,0,0,.085);
+  transform: none;
+}
+html[dark] #vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted,
+html[dark="true"] #vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted {
+  color: #f1f1f1;
+  background:
+    linear-gradient(to bottom,
+      rgba(255,255,255,.065) 0%,
+      rgba(255,255,255,.035) 49%,
+      rgba(0,0,0,.012) 51%,
+      rgba(0,0,0,.045) 100%),
+    rgba(255,255,255,.10);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.065),
+    inset 0 -1px 0 rgba(0,0,0,.08);
+}
+html[dark] #vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted:hover,
+html[dark="true"] #vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted:hover {
+  background:
+    linear-gradient(to bottom,
+      rgba(255,255,255,.075) 0%,
+      rgba(255,255,255,.04) 49%,
+      rgba(0,0,0,.015) 51%,
+      rgba(0,0,0,.05) 100%),
+    rgba(255,255,255,.14);
+}
+#vtm-mark-button.vtm-platform-youtube .vtm-mark-emoji { font-size: 17px; line-height: 1; }
+#vtm-mark-button.vtm-platform-youtube .vtm-mark-label { font-size: inherit; }
+
+/* Twitch：真正嵌入 Follow action group；尺寸由 JS 同步原生 Follow/Unfollow。 */
+#vtm-mark-button.vtm-platform-twitch.vtm-inline-mounted {
+  padding: 0;
+  background: #2f2f35;
+  color: #efeff1;
+  box-shadow: none;
+  transform: none;
+}
+#vtm-mark-button.vtm-platform-twitch.vtm-inline-mounted:hover { background: #3d3d44; transform: none; }
+#vtm-mark-button.vtm-platform-twitch .vtm-mark-label { display: none; }
+#vtm-mark-button.vtm-platform-twitch .vtm-mark-emoji { font-size: 17px; line-height: 1; }
+
+#vtm-mark-button.vtm-fallback-mounted {
+  min-height: 48px;
+  border-radius: 999px;
+  background: #1f1f1f;
+  color: white;
+  box-shadow: 0 6px 24px rgba(0,0,0,.28);
+}
+#vtm-mark-button.vtm-fallback-mounted:hover { transform: translateY(-1px); }
+.vtm-mark-emoji { font-size: 16px; line-height: 1; }
+.vtm-mark-label { font-size: 14px; }
+.vtm-mark-player-icon { display: none; pointer-events: none; }
+
+
+#vtm-root {
+  --vtm-panel-accent: #ff365d;
+  --vtm-panel-accent-2: #8456ff;
+  --vtm-panel-bg: rgba(15,15,17,.985);
+  --vtm-panel-surface: rgba(255,255,255,.055);
+  --vtm-panel-surface-hover: rgba(255,255,255,.09);
+  --vtm-panel-border: rgba(255,255,255,.10);
+  --vtm-panel-muted: rgba(255,255,255,.58);
+}
+#vtm-root.vtm-platform-youtube {
+  --vtm-panel-accent: #ff304f;
+  --vtm-panel-accent-2: #7c54ff;
+}
+#vtm-root.vtm-platform-twitch {
+  --vtm-panel-accent: #9147ff;
+  --vtm-panel-accent-2: #c052ff;
+}
+
+#vtm-panel {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  right: auto;
+  bottom: auto;
+  width: min(382px, calc(100vw - 24px));
+  max-height: min(78vh, 720px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  color: #f4f4f5;
+  border: 1px solid transparent;
+  border-radius: 18px;
+  padding: 14px 16px 15px;
+  background:
+    linear-gradient(180deg, rgba(18,18,20,.99), rgba(12,12,14,.985)) padding-box,
+    linear-gradient(145deg, var(--vtm-panel-accent), var(--vtm-panel-accent-2) 58%, rgba(255,255,255,.18)) border-box;
+  box-shadow:
+    0 18px 50px rgba(0,0,0,.46),
+    0 0 24px color-mix(in srgb, var(--vtm-panel-accent-2) 13%, transparent),
+    inset 0 1px 0 rgba(255,255,255,.035);
+  display: none;
+  pointer-events: auto;
+  opacity: 1;
+  transition: opacity .55s ease, box-shadow .55s ease;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,.18) transparent;
+}
+#vtm-panel.vtm-open { display: block; }
+#vtm-panel.vtm-idle-faded {
+  opacity: .07;
+  box-shadow: none;
+}
+#vtm-panel button,
+#vtm-panel textarea {
+  font: inherit;
+}
+#vtm-panel button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.vtm-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 34px;
+  margin-bottom: 10px;
+}
+.vtm-panel-brand {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 9px;
+}
+.vtm-panel-logo {
+  width: 27px;
+  height: 27px;
+  flex: 0 0 27px;
+  border-radius: 7px;
+  object-fit: cover;
+  filter: drop-shadow(0 2px 7px rgba(0,0,0,.35));
+}
+.vtm-panel-title {
+  font-size: 17px;
+  line-height: 1.15;
+  font-weight: 760;
+  letter-spacing: .01em;
+  color: rgba(255,255,255,.94);
+}
+.vtm-icon-button {
+  width: 30px;
+  min-width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: rgba(255,255,255,.84);
+  cursor: pointer;
+  font-size: 25px;
+  line-height: 1;
+}
+.vtm-icon-button:hover {
+  background: rgba(255,255,255,.075);
+  color: #fff;
+}
+
+.vtm-panel-tabs {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 10px;
+}
+.vtm-tab {
+  min-height: 29px;
+  border: 0;
+  border-radius: 999px;
+  padding: 5px 13px;
+  background: rgba(255,255,255,.055);
+  color: rgba(255,255,255,.68);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 620;
+  transition: background .14s ease, color .14s ease;
+}
+.vtm-tab:hover { background: rgba(255,255,255,.085); color: rgba(255,255,255,.9); }
+.vtm-tab.is-active {
+  background: #f4f4f5;
+  color: #151517;
+  font-weight: 760;
+  box-shadow: 0 1px 5px rgba(0,0,0,.22);
+}
+.vtm-view { display: none; }
+.vtm-view.is-active { display: block; }
+
+.vtm-media-details { display: none; }
+.vtm-title { font-size: 13px; font-weight: 700; }
+.vtm-meta { font-size: 11px; opacity: .7; }
+
+.vtm-time {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 31px;
+  margin: 0 0 3px;
+  font-size: 24px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  font-weight: 650;
+  letter-spacing: -.025em;
+  color: rgba(255,255,255,.95);
+}
+.vtm-badge,
+.vtm-list-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255,255,255,.075);
+  color: rgba(255,255,255,.72);
+  font-weight: 650;
+}
+.vtm-badge {
+  padding: 3px 7px;
+  margin-left: 0;
+  font-size: 9px;
+  line-height: 1.25;
+  letter-spacing: .02em;
+}
+.vtm-time-adjust {
+  display: flex;
+  gap: 7px;
+  margin: 0 0 11px;
+}
+.vtm-time-adjust button {
+  min-width: 51px;
+  min-height: 27px;
+  border: 0;
+  border-radius: 8px;
+  padding: 4px 10px;
+  background: rgba(255,255,255,.07);
+  color: rgba(255,255,255,.82);
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.vtm-time-adjust button:hover { background: rgba(255,255,255,.11); color: #fff; }
+
+.vtm-save-status {
+  margin: 0 0 8px;
+  font-size: 10.5px;
+  line-height: 1.4;
+  color: var(--vtm-panel-muted);
+}
+#vtm-note {
+  width: 100%;
+  min-height: 80px;
+  max-height: 160px;
+  resize: vertical;
+  border: 1px solid rgba(255,255,255,.075);
+  border-radius: 11px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.052), rgba(255,255,255,.032));
+  color: #f5f5f5;
+  padding: 10px 11px;
+  outline: none;
+  font-size: 11.5px;
+  line-height: 1.5;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.025);
+}
+#vtm-note::placeholder { color: rgba(255,255,255,.46); }
+#vtm-note:focus {
+  border-color: color-mix(in srgb, var(--vtm-panel-accent-2) 48%, rgba(255,255,255,.14));
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--vtm-panel-accent-2) 10%, transparent);
+}
+.vtm-diagnostic {
+  display: none;
+  margin-top: 6px;
+  font-size: 9.5px;
+  color: rgba(255,255,255,.48);
+  line-height: 1.35;
+  word-break: break-word;
+}
+.vtm-diagnostic.is-visible { display: block; }
+
+.vtm-current-list {
+  display: grid;
+  gap: 6px;
+}
+.vtm-current-list-preview {
+  margin-top: 9px;
+  padding-top: 0;
+}
+.vtm-current-list-preview[hidden] { display: none; }
+
+.vtm-list-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 8px auto auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 7px;
+  min-height: 41px;
+  padding: 7px 9px;
+  border: 1px solid rgba(255,255,255,.055);
+  border-radius: 10px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.048), rgba(255,255,255,.031));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.018);
+}
+.vtm-list-item:hover {
+  border-color: rgba(255,255,255,.085);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.065), rgba(255,255,255,.04));
+}
+.vtm-list-item.is-current {
+  border-color: color-mix(in srgb, var(--vtm-panel-accent) 22%, rgba(255,255,255,.055));
+}
+.vtm-list-rail {
+  position: relative;
+  width: 8px;
+  height: 27px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.vtm-list-rail::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 1px;
+  bottom: 1px;
+  width: 1px;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    color-mix(in srgb, var(--vtm-panel-accent) 16%, transparent) 18%,
+    color-mix(in srgb, var(--vtm-panel-accent) 24%, transparent) 50%,
+    color-mix(in srgb, var(--vtm-panel-accent) 16%, transparent) 82%,
+    transparent 100%
+  );
+}
+.vtm-list-rail i {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--vtm-panel-accent) 72%, #fff 28%);
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--vtm-panel-accent) 9%, transparent),
+    0 0 7px color-mix(in srgb, var(--vtm-panel-accent) 18%, transparent);
+}
+.vtm-list-item:not(.is-current) .vtm-list-rail i {
+  opacity: .68;
+  width: 4px;
+  height: 4px;
+  box-shadow: 0 0 5px color-mix(in srgb, var(--vtm-panel-accent) 12%, transparent);
+}
+.vtm-list-item.is-current .vtm-list-rail i {
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--vtm-panel-accent) 11%, transparent),
+    0 0 9px color-mix(in srgb, var(--vtm-panel-accent) 30%, transparent);
+}
+
+.vtm-list-time {
+  font-size: 10.5px;
+  line-height: 1;
+  font-weight: 580;
+  font-variant-numeric: tabular-nums;
+  color: rgba(255,255,255,.66);
+  white-space: nowrap;
+}
+.vtm-list-badge {
+  padding: 2px 5px;
+  font-size: 8px;
+  line-height: 1.2;
+}
+.vtm-list-note {
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 10.5px;
+  line-height: 1.35;
+  color: rgba(255,255,255,.82);
+}
+.vtm-list-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 2px;
+  margin: 0;
+  flex-wrap: nowrap;
+}
+.vtm-row-icon {
+  width: 27px;
+  min-width: 27px;
+  height: 27px;
+  padding: 5px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: rgba(255,255,255,.72);
+  cursor: pointer;
+}
+.vtm-row-icon:hover {
+  background: rgba(255,255,255,.075);
+  color: #fff;
+}
+.vtm-row-icon.danger { color: #ff3f57; }
+.vtm-row-icon.danger:hover {
+  background: rgba(255,46,70,.09);
+  color: #ff5166;
+}
+.vtm-row-icon svg {
+  display: block;
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.vtm-actions,
+.vtm-list-toolbar,
+.vtm-list-toolbar-actions {
+  display: flex;
+  gap: 7px;
+}
+.vtm-actions-footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.08fr;
+  align-items: stretch;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,.055);
+}
+.vtm-actions-footer button,
+.vtm-list-toolbar button {
+  min-height: 34px;
+  border: 1px solid rgba(255,255,255,.045);
+  border-radius: 9px;
+  padding: 6px 9px;
+  background: rgba(255,255,255,.055);
+  color: rgba(255,255,255,.83);
+  cursor: pointer;
+  font-size: 10.5px;
+  font-weight: 610;
+  white-space: nowrap;
+}
+.vtm-actions-footer button:hover,
+.vtm-list-toolbar button:hover {
+  background: rgba(255,255,255,.09);
+  color: #fff;
+}
+.vtm-actions-footer .vtm-export-emphasis,
+.vtm-list-toolbar .vtm-export-emphasis {
+  border-color: color-mix(in srgb, var(--vtm-panel-accent) 34%, transparent);
+  background: color-mix(in srgb, var(--vtm-panel-accent) 15%, rgba(255,255,255,.04));
+  color: #ffd7dd;
+}
+.vtm-actions-footer .vtm-export-emphasis:hover,
+.vtm-list-toolbar .vtm-export-emphasis:hover {
+  background: color-mix(in srgb, var(--vtm-panel-accent) 23%, rgba(255,255,255,.045));
+}
+.vtm-button-icon {
+  display: inline-flex;
+  width: 13px;
+  height: 13px;
+  margin-right: 4px;
+  color: var(--vtm-panel-accent);
+  vertical-align: -2px;
+}
+.vtm-button-icon svg {
+  width: 13px;
+  height: 13px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.vtm-danger-button {
+  color: rgba(255,255,255,.68) !important;
+}
+.vtm-danger-button:hover {
+  border-color: rgba(255,67,88,.18) !important;
+  background: rgba(255,53,78,.075) !important;
+  color: #ff8997 !important;
+}
+
+.vtm-list-toolbar {
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 9px;
+  flex-wrap: wrap;
+}
+#vtm-list-summary {
+  font-size: 10.5px;
+  color: rgba(255,255,255,.58);
+}
+.vtm-list-toolbar-actions {
+  justify-content: flex-end;
+}
+.vtm-list-toolbar button {
+  min-height: 29px;
+  padding: 5px 8px;
+  font-size: 9.5px;
+}
+#vtm-list-view .vtm-current-list {
+  padding-bottom: 2px;
+}
+.vtm-list-empty {
+  padding: 20px 12px;
+  text-align: center;
+  color: rgba(255,255,255,.55);
+  border: 1px dashed rgba(255,255,255,.11);
+  border-radius: 10px;
+  font-size: 11px;
+}
+
+.vtm-time-adjust button:disabled,
+.vtm-actions button:disabled,
+.vtm-list-toolbar button:disabled,
+.vtm-row-icon:disabled {
+  opacity: .38;
+  cursor: default;
+}
+
+@media (max-width: 680px) {
+  #vtm-panel {
+    width: calc(100vw - 24px);
+    padding-inline: 13px;
+  }
+  .vtm-actions-footer {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #vtm-panel,
+  .vtm-tab {
+    transition: none;
+  }
+}
+
+
+/* YouTube normal mode: prefer the channel actions row beside Join / Subscribe.
+   If that row is unavailable, JS falls back to the metadata action row. */
+#vtm-mark-button.vtm-platform-youtube.vtm-youtube-normal-mounted { margin-left: 8px; }
+
+/* v0.3.3 legacy fullscreen kill-switch.
+   Firefox temporary-addon reload can leave an older content-script alive in an already-open YouTube tab.
+   Never allow the legacy normal marker to render inside the bottom player controls. */
+#movie_player .ytp-left-controls #vtm-mark-button,
+#movie_player .ytp-left-controls #vtm-mark-button-fullscreen,
+#movie_player .ytp-left-controls [data-vtm-placement^="youtube-fullscreen"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* YouTube fullscreen dedicated top-right marker.
+   Dormant state must win over any legacy mounted class or inline style, so the
+   fullscreen-only button can never appear or receive input in normal mode. */
+#vtm-mark-button-fullscreen.vtm-fullscreen-dormant,
+#vtm-mark-button-fullscreen:not(.vtm-inline-mounted),
+#vtm-mark-button-fullscreen[hidden] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+#vtm-mark-button-fullscreen.vtm-platform-youtube.vtm-inline-mounted.vtm-youtube-fullscreen-mounted[data-vtm-placement="youtube-fullscreen-title-right"] {
+  position: relative !important;
+  display: inline-flex !important;
+  float: none !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 0 0 48px !important;
+  width: 48px !important;
+  min-width: 48px !important;
+  max-width: 48px !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  max-height: 48px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  background: rgba(0, 0, 0, .22) !important;
+  box-shadow: none !important;
+  color: #fff !important;
+  visibility: visible !important;
+  opacity: .94 !important;
+  pointer-events: auto !important;
+  overflow: hidden !important;
+  z-index: 1;
+  line-height: 0 !important;
+  gap: 0 !important;
+  transform: none !important;
+  transition: opacity 140ms ease, visibility 0s linear 0s !important;
+}
+
+/* v1.1.6 — Follow YouTube's own fullscreen chrome visibility.
+   When YouTube auto-hides Play/Pause/progress/top chrome, hide the dedicated
+   top-right VTM marker too. This intentionally uses YouTube's native player
+   state classes instead of a second timer or DOM observer, so mouse movement
+   that wakes YouTube's controls also wakes VTM at the same time. */
+#movie_player.ytp-autohide #vtm-mark-button-fullscreen.vtm-youtube-fullscreen-mounted,
+#movie_player.ytp-autohide-active #vtm-mark-button-fullscreen.vtm-youtube-fullscreen-mounted,
+#movie_player.ytp-hide-controls #vtm-mark-button-fullscreen.vtm-youtube-fullscreen-mounted {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transition: opacity 140ms ease, visibility 0s linear 140ms !important;
+}
+
+#vtm-mark-button-fullscreen.vtm-platform-youtube.vtm-inline-mounted.vtm-youtube-fullscreen-mounted[data-vtm-placement="youtube-fullscreen-title-right"]:hover {
+  background: rgba(0, 0, 0, .36) !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+#vtm-mark-button-fullscreen.vtm-platform-youtube.vtm-inline-mounted.vtm-youtube-fullscreen-mounted[data-vtm-placement="youtube-fullscreen-title-right"]::before {
+  content: none !important;
+}
+#vtm-mark-button-fullscreen.vtm-platform-youtube.vtm-inline-mounted.vtm-youtube-fullscreen-mounted[data-vtm-placement="youtube-fullscreen-title-right"] .vtm-mark-label,
+#vtm-mark-button-fullscreen.vtm-platform-youtube.vtm-inline-mounted.vtm-youtube-fullscreen-mounted[data-vtm-placement="youtube-fullscreen-title-right"] .vtm-mark-emoji {
+  display: none !important;
+}
+#vtm-mark-button-fullscreen.vtm-platform-youtube.vtm-inline-mounted.vtm-youtube-fullscreen-mounted[data-vtm-placement="youtube-fullscreen-title-right"] .vtm-mark-player-icon {
+  display: block !important;
+  position: static !important;
+  width: 24px !important;
+  height: 24px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  color: #fff !important;
+  fill: none !important;
+  stroke: #fff !important;
+  stroke-width: 2 !important;
+  stroke-linejoin: round !important;
+  stroke-linecap: round !important;
+  opacity: 1 !important;
+  pointer-events: none;
+  transform: none !important;
+}
+#vtm-mark-button-fullscreen.vtm-platform-youtube.vtm-inline-mounted.vtm-youtube-fullscreen-mounted[data-vtm-placement="youtube-fullscreen-title-right"] .vtm-mark-player-icon path {
+  fill: none !important;
+  stroke: #fff !important;
+  stroke-width: 2 !important;
+  stroke-linejoin: round !important;
+  stroke-linecap: round !important;
+}
+
+.vtm-time-adjust button:disabled,
+.vtm-actions button:disabled { opacity: .45; cursor: default; }
+
+/* v0.3.7 YouTube normal responsive marker.
+   Never hide the marker merely because the metadata action row becomes tight.
+   Full label -> compact icon -> micro icon, while keeping the same native row. */
+#vtm-mark-button.vtm-platform-youtube.vtm-youtube-normal-mounted.vtm-youtube-compact {
+  width: var(--vtm-yt-compact-width, 36px) !important;
+  min-width: var(--vtm-yt-compact-width, 36px) !important;
+  max-width: var(--vtm-yt-compact-width, 36px) !important;
+  margin-left: 6px !important;
+  padding: 0 !important;
+  gap: 0 !important;
+}
+#vtm-mark-button.vtm-platform-youtube.vtm-youtube-normal-mounted.vtm-youtube-compact .vtm-mark-label,
+#vtm-mark-button.vtm-platform-youtube.vtm-youtube-normal-mounted.vtm-youtube-micro .vtm-mark-label {
+  display: none !important;
+}
+#vtm-mark-button.vtm-platform-youtube.vtm-youtube-normal-mounted.vtm-youtube-micro {
+  width: var(--vtm-yt-micro-width, 28px) !important;
+  min-width: var(--vtm-yt-micro-width, 28px) !important;
+  max-width: var(--vtm-yt-micro-width, 28px) !important;
+  margin-left: 3px !important;
+  padding: 0 !important;
+  gap: 0 !important;
+}
+#vtm-mark-button.vtm-platform-youtube.vtm-youtube-normal-mounted.vtm-youtube-micro .vtm-mark-emoji {
+  font-size: 15px !important;
+}

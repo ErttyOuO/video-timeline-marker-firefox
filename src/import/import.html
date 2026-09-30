@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Import TXT</title>
+  <link rel="stylesheet" href="import.css">
+</head>
+<body>
+  <header>
+    <img src="../../icons/icon-48.png" alt="">
+    <div>
+      <h1 id="import-page-title">Import TXT</h1>
+      <p id="import-page-subtitle">Video Timeline Marker</p>
+    </div>
+  </header>
+
+  <main>
+    <section class="intro-card">
+      <p id="import-page-description"></p>
+      <p id="import-page-supported" class="supported"></p>
+      <div class="actions">
+        <button id="choose-files" class="primary" type="button"></button>
+        <button id="close-window" type="button"></button>
+      </div>
+      <input id="import-files" type="file" accept=".txt,text/plain" multiple hidden>
+    </section>
+
+    <div id="import-progress" class="progress" role="status" aria-live="polite" hidden></div>
+
+    <section id="import-report" class="import-report" role="status" aria-live="polite" hidden>
+      <div class="report-head">
+        <div>
+          <strong id="import-report-title"></strong>
+          <div id="import-report-summary"></div>
+        </div>
+      </div>
+      <details id="import-report-details" open>
+        <summary id="import-report-details-label"></summary>
+        <div id="import-report-files"></div>
+      </details>
+    </section>
+  </main>
+
+  <script src="import-utils.js"></script>
+  <script src="import.js"></script>
+</body>
+</html>
