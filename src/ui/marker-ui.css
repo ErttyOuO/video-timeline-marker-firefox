@@ -792,12 +792,12 @@ html[dark="true"] #vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted:hover
 /* 頻道列（訂閱鈕旁）的標記按鈕：配色對齊 YouTube 原生訂閱鈕。
    深色主題 = 白色底 + 深色字；淺色主題 = 深色底 + 白字（與淺色主題的訂閱鈕相同）。 */
 html[dark] #vtm-youtube-owner-slot > #vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted {
-  background: #f1f1f1;
-  color: #0f0f0f;
+  background: rgba(255, 255, 255, .18);
+  color: #fff;
   box-shadow: none;
 }
 html[dark] #vtm-youtube-owner-slot > #vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted:hover {
-  background: #d9d9d9;
+  background: rgba(255, 255, 255, .26);
 }
 html:not([dark]) #vtm-youtube-owner-slot > #vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted {
   background: #0f0f0f;

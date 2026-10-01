@@ -605,5 +605,11 @@
   },
   "confirmPausedHint": {
     "message": "已暫停自動刪除，請選擇要刪除或保留。"
+  },
+  "hostAccessPrompt": {
+    "message": "需要允許存取 YouTube / Twitch 網站，標記按鈕才會出現在手機版頁面。"
+  },
+  "hostAccessButton": {
+    "message": "允許存取"
   }
 }

@@ -91,7 +91,7 @@
         continue;
       }
       // YouTube / Twitch 都由各自的原生 inline placement 決定按鈕是否顯示。
-      if (!candidate.classList.contains("vtm-inline-mounted")) candidate.style.display = "none";
+      if (!candidate.classList.contains("vtm-inline-mounted") && !candidate.classList.contains("vtm-mobile-fab")) candidate.style.display = "none";
     }
   }
 

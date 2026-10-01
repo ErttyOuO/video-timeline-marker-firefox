@@ -605,5 +605,11 @@
   },
   "confirmPausedHint": {
     "message": "已暂停自动删除，请选择删除或保留。"
+  },
+  "hostAccessPrompt": {
+    "message": "需要允许访问 YouTube / Twitch 网站，标记按钮才会出现在手机版页面。"
+  },
+  "hostAccessButton": {
+    "message": "允许访问"
   }
 }

@@ -1,3 +1,8 @@
+## v1.3.1
+- Android: fixed the floating marker button being hidden right after mounting (it is now exempt from the "hide unless inline-mounted" rule).
+- Popup: shows a one-tap "Allow access" banner when YouTube/Twitch host permissions are not granted (Firefox MV3 does not auto-grant them, notably on Android), since content scripts cannot run without them.
+- YouTube dark theme: the channel-row marker button now uses white text on a translucent light-gray background.
+
 ## v1.3.0
 - Firefox for Android support: manifest declares `gecko_android` (min 140) and adds `m.youtube.com` / `m.twitch.tv`.
 - Android: when no native action row is found (mobile YouTube / mobile Twitch layouts), a floating 🔖 button is shown on the right side of the page.

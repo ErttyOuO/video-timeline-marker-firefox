@@ -605,5 +605,11 @@
   },
   "confirmPausedHint": {
     "message": "Auto-delete paused. Choose Delete or Keep."
+  },
+  "hostAccessPrompt": {
+    "message": "Allow access to YouTube / Twitch so the marker button can appear on mobile pages."
+  },
+  "hostAccessButton": {
+    "message": "Allow access"
   }
 }
