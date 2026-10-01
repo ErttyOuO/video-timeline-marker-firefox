@@ -367,6 +367,12 @@ async function connectGoogleDrive() {
   }
 
   setSyncBusy(true, "syncStatusConnecting");
+  // Firefox for Android：登入頁會在瀏覽器分頁開啟，提醒使用者離開本畫面。
+  const leaveNotice = document.getElementById("sync-leave-notice");
+  if (leaveNotice && /Android/i.test(navigator.userAgent)) {
+    leaveNotice.textContent = t("syncLeaveNotice");
+    leaveNotice.hidden = false;
+  }
   try {
     const result = await browser.runtime.sendMessage({ type: "VTM_SYNC_CONNECT" });
     renderSyncStatus(result?.status, result?.authError || result?.syncError);
@@ -375,6 +381,7 @@ async function connectGoogleDrive() {
     const status = await browser.runtime.sendMessage({ type: "VTM_SYNC_GET_STATUS" }).catch(() => null);
     renderSyncStatus(status || { connected: false, enabled: false }, error);
   } finally {
+    if (leaveNotice) leaveNotice.hidden = true;
     setSyncBusy(false);
   }
 }

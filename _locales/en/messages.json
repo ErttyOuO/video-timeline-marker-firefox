@@ -611,5 +611,8 @@
   },
   "hostAccessButton": {
     "message": "Allow access"
+  },
+  "syncLeaveNotice": {
+    "message": "The Google sign-in page has opened in your browser. Please close this screen (go back to the browser tabs) to finish signing in."
   }
 }

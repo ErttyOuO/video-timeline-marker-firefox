@@ -243,3 +243,6 @@ html.vtm-android button { min-height: 40px; }
 .host-access-banner { display: flex; align-items: center; gap: 10px; padding: 8px 12px; font-size: 12px; background: color-mix(in srgb, #ff365d 14%, transparent); border-bottom: 1px solid color-mix(in srgb, CanvasText 14%, transparent); }
 .host-access-banner span { flex: 1 1 auto; }
 .host-access-banner button { flex: 0 0 auto; padding: 6px 12px; border: 0; border-radius: 999px; font: inherit; font-weight: 600; cursor: pointer; color: #fff; background: #d81f4a; }
+
+.sync-leave-notice { margin: 8px 0 0; padding: 12px 14px; font-size: 14px; font-weight: 600; line-height: 1.5; border-radius: 10px; color: CanvasText; background: color-mix(in srgb, #3ea6ff 22%, transparent); border: 1px solid color-mix(in srgb, #3ea6ff 55%, transparent); }
+.sync-leave-notice[hidden] { display: none; }

@@ -611,5 +611,8 @@
   },
   "hostAccessButton": {
     "message": "允許存取"
+  },
+  "syncLeaveNotice": {
+    "message": "已在瀏覽器開啟 Google 登入頁面。請關閉本畫面（返回瀏覽器分頁）完成登入。"
   }
 }

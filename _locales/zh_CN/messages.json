@@ -611,5 +611,8 @@
   },
   "hostAccessButton": {
     "message": "允许访问"
+  },
+  "syncLeaveNotice": {
+    "message": "已在浏览器打开 Google 登录页面。请关闭本画面（返回浏览器标签页）完成登录。"
   }
 }
