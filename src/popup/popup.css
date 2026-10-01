@@ -239,3 +239,7 @@ main { flex: 1 1 auto; min-height: 0; padding: 10px; overflow: auto; }
 /* Firefox for Android：popup 不使用桌面版固定的 440×600，改為全寬全高。 */
 html.vtm-android, html.vtm-android body { width: 100%; min-width: 0; max-width: none; height: 100vh; min-height: 0; }
 html.vtm-android button { min-height: 40px; }
+
+.host-access-banner { display: flex; align-items: center; gap: 10px; padding: 8px 12px; font-size: 12px; background: color-mix(in srgb, #ff365d 14%, transparent); border-bottom: 1px solid color-mix(in srgb, CanvasText 14%, transparent); }
+.host-access-banner span { flex: 1 1 auto; }
+.host-access-banner button { flex: 0 0 auto; padding: 6px 12px; border: 0; border-radius: 999px; font: inherit; font-weight: 600; cursor: pointer; color: #fff; background: #d81f4a; }

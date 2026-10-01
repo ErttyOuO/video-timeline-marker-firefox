@@ -1005,5 +1005,43 @@ applyLocale();
   if (versionNode) versionNode.textContent = `v${browser.runtime.getManifest().version}`;
 }
 setSyncPanelOpen(false);
+
+// Firefox 的 MV3 不會自動授予網站權限（Android 尤其如此）：沒有授權時，內容腳本不會注入，
+// 標記按鈕也就不會出現。偵測到未授權時，在 popup 頂端顯示一個一鍵授權的提示。
+async function ensureHostAccessBanner() {
+  const origins = ["https://www.youtube.com/*", "https://m.youtube.com/*", "https://www.twitch.tv/*", "https://m.twitch.tv/*"];
+  let granted = true;
+  try {
+    granted = await browser.permissions.contains({ origins });
+  } catch {
+    return;
+  }
+  const existing = document.getElementById("host-access-banner");
+  if (granted) {
+    existing?.remove();
+    return;
+  }
+  if (existing) return;
+  const banner = document.createElement("div");
+  banner.id = "host-access-banner";
+  banner.className = "host-access-banner";
+  const text = document.createElement("span");
+  text.textContent = t("hostAccessPrompt");
+  const button = document.createElement("button");
+  button.type = "button";
+  button.textContent = t("hostAccessButton");
+  button.addEventListener("click", async () => {
+    try {
+      await browser.permissions.request({ origins });
+    } catch (error) {
+      console.warn("[VTM] host permission request failed", error);
+    }
+    await ensureHostAccessBanner();
+    await updateAddMarkerAvailability();
+  });
+  banner.append(text, button);
+  document.getElementById("list")?.before(banner);
+}
+void ensureHostAccessBanner();
 Promise.all([render(), loadImportReport(), updateAddMarkerAvailability(), loadSyncStatus({ refreshIfStale: true })])
   .catch((error) => console.error("[VTM] popup init failed", error));
