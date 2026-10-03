@@ -44,67 +44,48 @@
   white-space: nowrap;
 }
 
-/* YouTube：外框尺寸直接同步原生 Share 按鈕。
-   上/下半只保留很淡的透明明暗差，避免與 YouTube tonal button 對比過強。 */
+/* YouTube inline button: measured base values; content width remains automatic. */
 #vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted {
-  width: var(--vtm-yt-width, auto);
-  height: var(--vtm-yt-height, 36px);
-  min-width: var(--vtm-yt-width, auto);
-  min-height: var(--vtm-yt-height, 36px);
-  max-width: var(--vtm-yt-width, none);
-  max-height: var(--vtm-yt-height, none);
-  padding: 0;
-  border-radius: var(--vtm-yt-radius, 18px);
-  font-size: var(--vtm-yt-font-size, 14px);
-  font-weight: var(--vtm-yt-font-weight, 500);
+  width: auto;
+  min-width: 0;
+  max-width: none;
+  height: 40px;
+  min-height: 40px;
+  max-height: 40px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 20px;
+  background: rgba(0, 0, 0, .05);
   color: #0f0f0f;
-  background:
-    linear-gradient(to bottom,
-      rgba(255,255,255,.16) 0%,
-      rgba(255,255,255,.07) 49%,
-      rgba(0,0,0,.012) 51%,
-      rgba(0,0,0,.035) 100%),
-    rgba(0,0,0,.055);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.18),
-    inset 0 -1px 0 rgba(0,0,0,.035);
+  box-shadow: none;
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 40px;
+  letter-spacing: normal;
+  gap: 8px; /* Plugin icon/text spacing, not a measured YouTube notification gap. */
   transform: none;
 }
 #vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted:hover {
-  background:
-    linear-gradient(to bottom,
-      rgba(255,255,255,.18) 0%,
-      rgba(255,255,255,.08) 49%,
-      rgba(0,0,0,.015) 51%,
-      rgba(0,0,0,.045) 100%),
-    rgba(0,0,0,.085);
+  background: rgba(0, 0, 0, .05);
   transform: none;
 }
 html[dark] #vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted,
-html[dark="true"] #vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted {
+html[dark] #vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted:hover {
+  background: rgba(255, 255, 255, .1);
   color: #f1f1f1;
-  background:
-    linear-gradient(to bottom,
-      rgba(255,255,255,.065) 0%,
-      rgba(255,255,255,.035) 49%,
-      rgba(0,0,0,.012) 51%,
-      rgba(0,0,0,.045) 100%),
-    rgba(255,255,255,.10);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.065),
-    inset 0 -1px 0 rgba(0,0,0,.08);
 }
-html[dark] #vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted:hover,
-html[dark="true"] #vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted:hover {
-  background:
-    linear-gradient(to bottom,
-      rgba(255,255,255,.075) 0%,
-      rgba(255,255,255,.04) 49%,
-      rgba(0,0,0,.015) 51%,
-      rgba(0,0,0,.05) 100%),
-    rgba(255,255,255,.14);
+#vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted .vtm-mark-emoji { display: none; }
+#vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted .vtm-mark-player-icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linejoin: round;
 }
-#vtm-mark-button.vtm-platform-youtube .vtm-mark-emoji { font-size: 17px; line-height: 1; }
 #vtm-mark-button.vtm-platform-youtube .vtm-mark-label { font-size: inherit; }
 
 /* Twitch：真正嵌入 Follow action group；尺寸由 JS 同步原生 Follow/Unfollow。 */
@@ -789,36 +770,8 @@ html[dark="true"] #vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted:hover
 #movie_player.ytp-fullscreen #vtm-mark-button-player { display: none !important; }
 
 
-/* 頻道列（訂閱鈕旁）的標記按鈕：配色對齊 YouTube 原生訂閱鈕。
-   深色主題 = 白色底 + 深色字；淺色主題 = 深色底 + 白字（與淺色主題的訂閱鈕相同）。 */
-html[dark] #vtm-youtube-owner-slot > #vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted {
-  background: rgba(255, 255, 255, .18);
-  color: #fff;
-  box-shadow: none;
-}
-html[dark] #vtm-youtube-owner-slot > #vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted:hover {
-  background: rgba(255, 255, 255, .26);
-}
-html:not([dark]) #vtm-youtube-owner-slot > #vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted {
-  background: #0f0f0f;
-  color: #fff;
-  box-shadow: none;
-}
-html:not([dark]) #vtm-youtube-owner-slot > #vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted:hover {
-  background: #272727;
-}
+/* Owner slot inherits the same inline style; no theme/padding override here. */
 #vtm-youtube-owner-slot { align-self: flex-start; }
-
-/* 頻道列的標記按鈕：不再強制與訂閱鈕同寬（訂閱鈕可能只有 60px，
-   會讓 🔖 與文字貼邊）。改為依內容自動寬度，並保留較寬的左右留白。 */
-#vtm-youtube-owner-slot > #vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted:not(.vtm-youtube-compact):not(.vtm-youtube-micro) {
-  width: auto;
-  min-width: 84px;
-  max-width: none;
-  padding: 0 22px;
-  gap: 8px;
-}
-
 
 /* Firefox for Android 浮動標記按鈕（找不到原生操作列時使用）。 */
 #vtm-mark-button.vtm-fallback-mounted.vtm-mobile-fab {
@@ -841,3 +794,31 @@ html:not([dark]) #vtm-youtube-owner-slot > #vtm-mark-button.vtm-platform-youtube
 }
 #vtm-mark-button.vtm-fallback-mounted.vtm-mobile-fab .vtm-mark-label { display: none; }
 #vtm-mark-button.vtm-fallback-mounted.vtm-mobile-fab .vtm-mark-emoji { font-size: 22px; }
+
+#vtm-mark-button.vtm-platform-youtube.vtm-youtube-micro .vtm-mark-player-icon { width:20px; height:20px; flex-basis:20px; }
+
+/* YouTube tonal button bevel: a light upper edge and darker lower edge create the native 3D feel. */
+#vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted {
+  border: 1px solid rgba(0,0,0,.18) !important;
+  background: linear-gradient(180deg, #f8f8f8 0%, #f1f1f1 48%, #e5e5e5 100%) !important;
+  color: #0f0f0f !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.95), inset 0 -1px 0 rgba(0,0,0,.16), 0 1px 2px rgba(0,0,0,.16) !important;
+}
+#vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted:hover {
+  background: linear-gradient(180deg, #ffffff 0%, #f7f7f7 48%, #e9e9e9 100%) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,1), inset 0 -1px 0 rgba(0,0,0,.18), 0 1px 3px rgba(0,0,0,.2) !important;
+}
+html[dark] #vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted,
+html[dark="true"] #vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted,
+html.yt-dark #vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted {
+  border: 1px solid rgba(255,255,255,.16) !important;
+  background: linear-gradient(180deg, #414141 0%, #333333 48%, #292929 100%) !important;
+  color: #f1f1f1 !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.22), inset 0 -1px 0 rgba(0,0,0,.48), 0 1px 2px rgba(0,0,0,.42) !important;
+}
+html[dark] #vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted:hover,
+html[dark="true"] #vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted:hover,
+html.yt-dark #vtm-mark-button.vtm-platform-youtube.vtm-inline-mounted:hover {
+  background: linear-gradient(180deg, #4a4a4a 0%, #393939 48%, #2d2d2d 100%) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.28), inset 0 -1px 0 rgba(0,0,0,.52), 0 1px 3px rgba(0,0,0,.5) !important;
+}

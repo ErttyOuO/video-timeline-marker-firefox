@@ -396,6 +396,33 @@
     return lastStats;
   }
 
+  async function purgeMarkers(markerIds = []) {
+    const ids = new Set((Array.isArray(markerIds) ? markerIds : []).filter(Boolean));
+    if (!ids.size) return { purged: 0, synced: false };
+    const local = await readLocalState();
+    const meta = { schemaVersion: SCHEMA_VERSION, entries: { ...(local.meta.entries || {}) } };
+    for (const id of ids) delete meta.entries[id];
+    await browser.storage.local.set({ [META_KEY]: meta });
+    let synced = false;
+    try {
+      const config = await getConfig();
+      const authState = await ns.auth.getState();
+      if (config.enabled && authState.connected) {
+        const remote = await ns.drive.readSyncFile();
+        if (remote.exists && remote.payload) {
+          const payload = normalizeCloudPayload(remote.payload);
+          payload.markers = payload.markers.filter(marker => !ids.has(marker.id));
+          for (const id of ids) { delete payload.versions[id]; delete payload.tombstones[id]; }
+          await ns.drive.updateSyncFile(remote.file.id, { ...payload, app: "video-timeline-marker", updatedAt: nowIso(), deviceId: await getDeviceId() }, remote.etag);
+          synced = true;
+        }
+      }
+    } catch (error) {
+      console.warn("[VTM Sync] permanent purge cloud update failed", error);
+    }
+    return { purged: ids.size, synced };
+  }
+
   async function runSync(reason = "manual") {
     if (syncPromise) return syncPromise;
     syncPromise = (async () => {
@@ -579,6 +606,7 @@
     if (message?.type === "VTM_SYNC_CONNECT") return connect();
     if (message?.type === "VTM_SYNC_DISCONNECT") return disconnect();
     if (message?.type === "VTM_SYNC_NOW") return runSync(message.reason || "manual").then(async (stats) => ({ stats, status: await getStatus() }));
+    if (message?.type === "VTM_SYNC_PURGE_MARKERS") return purgeMarkers(message.markerIds || []);
     return undefined;
   });
 

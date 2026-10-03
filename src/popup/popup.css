@@ -246,3 +246,130 @@ html.vtm-android button { min-height: 40px; }
 
 .sync-leave-notice { margin: 8px 0 0; padding: 12px 14px; font-size: 14px; font-weight: 600; line-height: 1.5; border-radius: 10px; color: CanvasText; background: color-mix(in srgb, #3ea6ff 22%, transparent); border: 1px solid color-mix(in srgb, #3ea6ff 55%, transparent); }
 .sync-leave-notice[hidden] { display: none; }
+
+.app-footer { display:flex; align-items:center; justify-content:center; gap:8px; }
+#popup-settings-toggle { padding:2px 6px; border:0; background:transparent; font-size:16px; }
+.popup-settings { flex:0 0 auto; padding:10px 12px; border-top:1px solid color-mix(in srgb, CanvasText 14%, transparent); font-size:12px; }
+.popup-settings[hidden] { display:none; }
+.popup-settings label { display:flex; align-items:center; gap:8px; margin:8px 0; }
+#thumbnail-clear { font-size:12px; padding:4px 8px; }
+.group-thumbnail { width:160px; max-width:100%; aspect-ratio:16 / 9; object-fit:cover; display:block; border-radius:8px; margin-top:8px; }
+.filter-toolbar { display:flex; align-items:center; gap:6px; padding:7px 10px; border-bottom:1px solid color-mix(in srgb, CanvasText 12%, transparent); overflow-x:auto; }
+.filter-toolbar[hidden] { display:none !important; }
+.filter-toolbar-toggle { display:inline-flex; align-items:center; justify-content:center; width:34px; min-width:34px; height:32px; padding:0; }
+.filter-toolbar-toggle svg { width:17px; height:17px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linejoin:round; }
+.group-title, .group-thumb-column .group-thumbnail { cursor:pointer; }
+.group-title:hover { text-decoration:underline; text-underline-offset:2px; }
+.actions .minus5, .actions .plus5 { min-width:50px; }
+.popup-settings #import-txt { margin-top:8px; }
+.filter-chip { padding:4px 9px; border-radius:999px; font-size:12px; white-space:nowrap; }
+.filter-chip.is-active { background:Highlight; color:HighlightText; }
+#channel-filter { min-width:105px; max-width:145px; padding:4px 6px; border-radius:999px; background:ButtonFace; color:ButtonText; }
+.group-header { grid-template-columns:84px minmax(0,1fr); grid-template-areas:"thumb info" "actions actions"; column-gap:10px; row-gap:6px; padding:8px; }
+.group-thumb-column { grid-area:thumb; position:relative; min-height:58px; }
+.group-thumb-column .group-thumbnail { margin:0; width:84px; height:58px; }
+.group-select-wrap { position:absolute; top:3px; left:3px; z-index:2; padding:0; }
+.group-toggle { position:absolute; right:1px; bottom:-8px; width:22px; height:22px; margin:0; background:color-mix(in srgb, Canvas 82%, CanvasText 18%); }
+.group-info { grid-area:info; }
+.group-info > .group-thumbnail { display:none; }
+.group-title-row { display:block; }
+.group-title { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; line-height:1.3; }
+.group-badge { display:block; margin-top:4px; font-size:11px; }
+.group-meta { margin-top:3px; font-size:12px; }
+.group-actions { grid-area:actions; justify-content:flex-end; }
+.media-group { margin-bottom:7px; border-radius:10px; }
+.item { padding:6px 8px; }
+
+/* Compact media-card refinements */
+.group-title-row { display:flex; align-items:center; gap:6px; min-width:0; }
+.group-badge { flex:0 0 auto; margin-top:0; }
+.group-meta { display:inline; margin-left:6px; font-size:12px; }
+.group-info .group-meta::before { content:"· "; opacity:.55; }
+.group-actions { position:relative; display:flex; align-items:center; justify-content:flex-end; min-height:28px; }
+.group-menu-toggle { width:30px; height:28px; padding:0; border-radius:7px; font-size:19px; line-height:1; }
+.group-menu { position:absolute; right:0; bottom:32px; z-index:5; display:flex; flex-direction:column; gap:2px; min-width:132px; padding:5px; border:1px solid color-mix(in srgb, CanvasText 22%, transparent); border-radius:9px; background:Canvas; box-shadow:0 5px 18px rgb(0 0 0 / .28); }
+.group-menu[hidden] { display:none; }
+.group-menu button { width:100%; text-align:left; border:0; background:transparent; padding:6px 8px; font-size:12px; }
+.group-menu button:hover { background:color-mix(in srgb, CanvasText 9%, transparent); }
+.group-toggle { background:color-mix(in srgb, Canvas 78%, CanvasText 22%); color:CanvasText; border:1px solid color-mix(in srgb, CanvasText 22%, transparent); }
+.group-toggle:hover, .group-toggle:focus-visible { background:color-mix(in srgb, Canvas 68%, CanvasText 32%); color:CanvasText; }
+.group-toggle-icon { color:CanvasText; }
+.app-footer { min-height:32px; display:flex; align-items:center; justify-content:center; gap:8px; line-height:1; }
+#popup-settings-toggle { display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; line-height:1; }
+.settings-links { display:flex; flex-direction:column; gap:4px; margin-top:10px; padding-top:8px; border-top:1px solid color-mix(in srgb, CanvasText 14%, transparent); }
+.settings-links a { color:LinkText; }
+.settings-links small { opacity:.65; line-height:1.35; }
+/* Prevent empty-looking expanded marker area from consuming card height. */
+.group-markers { padding:0 8px 8px; gap:4px; }
+.item { min-height:0; padding:5px 7px; line-height:1.25; }
+.item .row { align-items:center; }
+.item .time { font-size:13px; font-weight:700; }
+.item .note { margin-top:2px; font-size:11px; opacity:.78; }
+/* Align thumbnail and metadata vertically within the fixed media-card height. */
+.group-header { align-items:center; }
+.group-thumb-column { align-self:center; display:flex; align-items:center; }
+.group-info { align-self:center; display:flex; flex-direction:column; justify-content:center; min-height:58px; }
+.group-title-row { align-items:center; }
+.group-actions { align-self:center; }
+
+/* v1.3.8: one grid row, no empty full-width menu row. */
+.media-group { overflow:visible; }
+.group-header {
+  position:relative;
+  grid-template-columns:84px minmax(0,1fr) 28px;
+  grid-template-areas:"thumb info actions";
+  gap:10px;
+  padding:10px;
+  align-items:center;
+  border-radius:8px;
+}
+.group-thumb-column { height:64px; min-height:64px; align-self:center; }
+.group-thumb-column .group-thumbnail { width:84px; height:64px; }
+.group-toggle { bottom:0; right:0; }
+.group-info { min-height:64px; min-width:0; justify-content:center; }
+.group-title-row { display:block; }
+.group-title { min-width:0; width:100%; font-size:14px; line-height:1.3; }
+.group-meta-row { display:flex; align-items:center; gap:6px; margin-top:5px; min-width:0; }
+.group-meta-row .group-badge { display:inline; flex:0 0 auto; font-size:10px; margin:0; }
+.group-meta-row .group-meta { display:block; min-width:0; margin:0; font-size:11px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.group-actions { padding:0; width:28px; min-height:28px; align-self:center; }
+.group-menu-toggle { width:28px; height:28px; }
+.group-menu { bottom:0; right:34px; }
+.group-markers { border-radius:0 0 8px 8px; }
+
+.delete-toast { position:fixed; left:50%; bottom:38px; transform:translateX(-50%); z-index:20; display:flex; align-items:center; gap:12px; padding:9px 12px; border:1px solid color-mix(in srgb, CanvasText 22%, transparent); border-radius:10px; background:color-mix(in srgb, Canvas 92%, CanvasText 8%); box-shadow:0 5px 18px rgb(0 0 0 / .3); font-size:12px; }
+.delete-toast[hidden] { display:none; }
+.delete-toast button { padding:4px 8px; font-size:12px; }
+.trash-section { margin-top:12px; padding-top:10px; border-top:1px solid color-mix(in srgb, CanvasText 14%, transparent); }
+#trash-list { display:grid; gap:5px; margin:8px 0; max-height:120px; overflow:auto; }
+.trash-item { display:flex; align-items:center; justify-content:space-between; gap:6px; font-size:11px; }
+.trash-item span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.trash-item button, #trash-empty { padding:4px 7px; font-size:11px; }
+
+/* Settings rows and opt-in batch selection. */
+.group-select-wrap { display:none; }
+.batch-selection-mode .group-select-wrap { display:block; }
+#batch-actions[hidden], #batch-select-cancel[hidden], #trash-section[hidden], .batch-toolbar[hidden] { display:none !important; }
+.batch-mode-controls { display:flex; gap:6px; align-items:center; }
+.batch-mode-controls button { font-size:12px; padding:6px 8px; white-space:nowrap; }
+.popup-settings { max-height:360px; overflow-y:auto; padding:12px; background:Canvas; }
+.popup-settings .settings-row { display:flex; align-items:center; gap:10px; width:100%; box-sizing:border-box; min-height:38px; margin:5px 0; padding:7px 10px; border-radius:9px; background:color-mix(in srgb, CanvasText 5%, Canvas); font:inherit; text-align:left; }
+.settings-icon { width:20px; flex:0 0 20px; text-align:center; font-size:18px; line-height:1; color:CanvasText; }
+.settings-row input, .settings-chevron { margin-left:auto; }
+.settings-action { color:CanvasText; border:1px solid color-mix(in srgb, CanvasText 10%, transparent); }
+.settings-action:hover { background:color-mix(in srgb, CanvasText 10%, Canvas); }
+#thumbnail-clear, .popup-settings #import-txt { padding:7px 10px; margin:5px 0; }
+.trash-section { margin:5px 0 10px; padding:10px; border:1px solid color-mix(in srgb, CanvasText 12%, transparent); border-radius:9px; }
+
+/* Header actions occupy the second row to keep the brand row clear. */
+header { flex-wrap: wrap; }
+.header-actions { flex: 0 0 100%; width: 100%; justify-content: flex-end; }
+.popup-settings .settings-icon { width:20px; height:20px; flex:0 0 20px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+
+/* Batch selection shares the same second-row toolbar as the header actions. */
+.header-actions .batch-toolbar { display:flex; flex:0 0 auto; align-items:center; padding:0; border:0; background:transparent; }
+.header-actions .batch-toolbar[hidden] { display:none !important; }
+.header-actions .batch-actions { display:flex; align-items:center; gap:5px; }
+.header-actions > button:not(.sync-toolbar-button), .header-actions .batch-toolbar button { opacity:.82; font-weight:500; border-color:color-mix(in srgb, CanvasText 18%, transparent); background:color-mix(in srgb, Canvas 94%, CanvasText 6%); }
+.header-actions > button:not(.sync-toolbar-button):hover, .header-actions .batch-toolbar button:hover { opacity:.96; }
+#add-marker-current:not(:disabled) { border-color:color-mix(in srgb, CanvasText 22%, transparent); box-shadow:none; }

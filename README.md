@@ -4,7 +4,7 @@ _Video Timeline Marker for YouTube & Twitch_
 
 [在 Firefox Add-ons 安裝 / Install on Firefox Add-ons](https://addons.mozilla.org/zh-TW/firefox/addon/youtube-twitch-%E6%99%82%E9%96%93%E6%A8%99%E8%A8%98/) · [隱私權政策](PRIVACY_POLICY.md) · [服務條款](TERMS_OF_SERVICE.md)
 
-**Version 1.2.3 — Firefox / AMO source**
+**Version 1.4.3 — Firefox / AMO source**
 
 「YouTube / Twitch 時間標記」是給剪輯師、實況精華整理、研究者與需要記錄影片時間軸的人使用的 Firefox WebExtension。
 
@@ -84,3 +84,14 @@ Mozilla Public License 2.0 (MPL-2.0). See [LICENSE](LICENSE).
 - YouTube action-bar marker injection 增加多層 DOM fallback 與 SPA / player 更新後重掛檢查。
 - Popup 可直接對目前支援的 YouTube/Twitch 播放頁新增標記。
 - 插件全螢幕 UI 隔離鍵盤與 pointer 事件，避免 YouTube 快捷鍵穿透。
+
+## v1.4.3 最新功能
+
+- Popup 使用縮圖清單與可收合的平台／頻道篩選，記住上次的篩選選擇。
+- 第二列工具列整合雲端、篩選、新增、匯出與批次選取；平常隱藏影片勾選框。
+- 設定提供 TXT 匯入、縮圖儲存／顯示選項及可展開的垃圾桶。
+- 標記可直接 −5 秒／+5 秒調整；影片標題與縮圖可展開標記。
+- 刪除後顯示三秒復原提示，垃圾桶保留 30 天，提供永久清除。
+- YouTube 一般模式標記按鈕提供深／淺色外觀。
+
+本資料夾程式內容已與 Drive 主專案 v1.4.3 同步，保留 GitHub 安裝連結與專屬說明。

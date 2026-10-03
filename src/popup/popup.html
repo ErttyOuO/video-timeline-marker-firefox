@@ -17,13 +17,22 @@
       </div>
     </div>
     <div class="header-actions">
-      <button id="import-txt" type="button">Import TXT</button>
       <button id="sync-panel-toggle" class="sync-toolbar-button" type="button" aria-expanded="false" aria-controls="sync-panel">
         <span class="sync-toolbar-icon" aria-hidden="true">☁</span>
         <span id="sync-toolbar-indicator" class="sync-toolbar-indicator" data-state="off" aria-hidden="true"></span>
       </button>
+      <button id="filter-toolbar-toggle" class="sync-toolbar-button filter-toolbar-toggle" type="button" aria-expanded="false" aria-controls="filter-toolbar" title="篩選" aria-label="篩選">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16l-6.5 7v5l-3 2v-7z"></path></svg>
+      </button>
       <button id="add-marker-current" type="button">＋ Add marker</button>
       <button id="export-all" type="button">Export all</button>
+      <div id="batch-toolbar" class="batch-toolbar" hidden>
+        <div class="batch-mode-controls"><button id="batch-select-toggle" type="button">批次選取</button><button id="batch-select-cancel" type="button" hidden>取消選取</button></div>
+        <div id="batch-actions" class="batch-actions" hidden>
+          <button id="export-selected" type="button" disabled>Export selected</button>
+          <button id="delete-selected" class="danger" type="button" disabled>Delete selected</button>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -78,40 +87,40 @@
     <div id="sync-error" class="sync-error" role="status" aria-live="polite"></div>
   </section>
 
-  <section id="batch-toolbar" class="batch-toolbar" hidden>
-    <label class="select-all-wrap">
-      <input id="select-all-groups" type="checkbox">
-      <span id="select-all-label">Select all videos</span>
-    </label>
-    <div class="batch-actions">
-      <button id="export-selected" type="button" disabled>Export selected</button>
-      <button id="delete-selected" class="danger" type="button" disabled>Delete selected</button>
-    </div>
+  <section id="filter-toolbar" class="filter-toolbar" aria-label="清單篩選" hidden>
+    <button class="filter-chip is-active" data-filter="all" type="button">全部</button>
+    <button class="filter-chip" data-filter="youtube" type="button">YouTube</button>
+    <button class="filter-chip" data-filter="twitch" type="button">Twitch</button>
+    <select id="channel-filter" aria-label="頻道篩選"><option value="all">全部頻道</option></select>
   </section>
 
+  <div id="delete-toast" class="delete-toast" role="status" aria-live="polite" hidden><span id="delete-toast-text"></span><button id="delete-undo" type="button">復原</button></div>
   <main id="list"></main>
-  <footer id="app-footer" class="app-footer"><span id="app-version"></span></footer>
+  <section id="popup-settings" class="popup-settings" aria-labelledby="popup-settings-heading" hidden>
+    <strong id="popup-settings-heading">設定</strong>
+    <label class="settings-row"><svg class="settings-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span id="thumbnail-save-label"></span><input id="thumbnail-save" type="checkbox"></label>
+    <label class="settings-row"><svg class="settings-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4a8 8 0 1 0 8 8"/><path d="M12 8v4l3 2"/></svg><span id="thumbnail-show-label"></span><input id="thumbnail-show" type="checkbox"></label>
+    <button class="settings-row settings-action" type="button" id="thumbnail-clear"><svg class="settings-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M7 7l1 13h8l1-13M10 11v5M14 11v5"/></svg><span id="thumbnail-clear-label">清除縮圖資料</span></button>
+    <button class="settings-row settings-action" type="button" id="import-txt"><svg class="settings-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h11M11 7l5 5-5 5M19 5v14"/></svg><span id="import-txt-label">匯入 TXT</span></button>
+    <span id="thumbnail-status" role="status"></span>
+    <button class="settings-row settings-action" id="trash-toggle" type="button" aria-expanded="false" aria-controls="trash-section"><svg class="settings-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7a7 7 0 0 1 11 2M18 9V5M18 9h-4M17 17a7 7 0 0 1-11-2M6 15v4M6 15h4"/></svg><span>垃圾桶</span><span class="settings-chevron" aria-hidden="true">▾</span></button>
+    <div id="trash-section" class="trash-section" hidden><small>刪除的標記保留 30 天</small><div id="trash-list"></div><button id="trash-empty" type="button">永久清除全部</button></div>
+    <div class="settings-links"><a href="https://github.com/ErttyOuO/video-timeline-marker-firefox" target="_blank" rel="noreferrer">GitHub 專案</a><small>介面樣式參考 YouTube 原生按鈕；縮圖使用 YouTube 公開中等畫質縮圖網址。</small></div>
+  </section>
+  <footer id="app-footer" class="app-footer"><span id="app-version"></span><button id="popup-settings-toggle" type="button" aria-expanded="false" aria-controls="popup-settings">⚙</button></footer>
 
   <template id="group-template">
     <section class="media-group">
       <div class="group-header">
-        <label class="group-select-wrap" title="">
-          <input class="group-select" type="checkbox">
-        </label>
+        <div class="group-thumb-column">
+          <label class="group-select-wrap" title=""><input class="group-select" type="checkbox"></label>
+          <button class="group-toggle" type="button" aria-expanded="true"><span class="group-toggle-icon" aria-hidden="true">▾</span></button>
+        </div>
         <div class="group-info">
-          <div class="group-title-row">
-            <button class="group-toggle" type="button" aria-expanded="true">
-              <span class="group-toggle-icon" aria-hidden="true">▾</span>
-            </button>
-            <strong class="group-title"></strong>
-            <span class="group-badge"></span>
-          </div>
-          <div class="group-meta"></div>
+          <div class="group-title-row"><strong class="group-title"></strong></div>
+          <div class="group-meta-row"><span class="group-badge"></span><span class="group-meta"></span></div>
         </div>
-        <div class="group-actions">
-          <button class="group-export" type="button"></button>
-          <button class="group-delete danger" type="button"></button>
-        </div>
+        <div class="group-actions"><button class="group-menu-toggle" type="button" aria-expanded="false" aria-label="影片選單">⋮</button><div class="group-menu" hidden><button class="group-export" type="button"></button><button class="group-delete danger" type="button"></button></div></div>
       </div>
       <div class="group-markers"></div>
     </section>
@@ -127,7 +136,8 @@
       <div class="actions">
         <button class="open" type="button"></button>
         <button class="edit" type="button"></button>
-        <button class="export" type="button"></button>
+        <button class="minus5" type="button"></button>
+        <button class="plus5" type="button"></button>
         <button class="delete danger" type="button"></button>
       </div>
     </article>

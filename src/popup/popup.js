@@ -2,6 +2,9 @@
 if (/Android/i.test(navigator.userAgent)) document.documentElement.classList.add("vtm-android");
 
 const KEY = "vtm_markers_v1";
+const TRASH_KEY = "vtm_trash_v1";
+let deleteToastTimer = null;
+let lastDeletedTrash = null;
 const IMPORT_REPORT_KEY = "vtm_last_import_report_v1";
 const GROUP_COLLAPSE_KEY = "vtm_popup_group_collapse_v1";
 const t = (key, substitutions) => browser.i18n.getMessage(key, substitutions) || key;
@@ -154,7 +157,7 @@ function applyLocale() {
   document.documentElement.lang = language;
   document.getElementById("popup-title").textContent = t("popupTitle");
   document.getElementById("popup-subtitle").textContent = t("popupSubtitle");
-  document.getElementById("import-txt").textContent = t("importTxt");
+  document.getElementById("import-txt-label").textContent = t("importTxt");
   const syncToggle = document.getElementById("sync-panel-toggle");
   syncToggle.title = t("syncTitle");
   syncToggle.setAttribute("aria-label", t("syncTitle"));
@@ -163,7 +166,7 @@ function applyLocale() {
   syncClose.setAttribute("aria-label", t("close"));
   document.getElementById("add-marker-current").textContent = t("popupAddCurrent");
   document.getElementById("export-all").textContent = t("exportAll");
-  document.getElementById("select-all-label").textContent = t("selectAllMedia");
+
   document.getElementById("import-report-details-label").textContent = t("importDetails");
   document.getElementById("sync-title").textContent = t("syncTitle");
   document.getElementById("sync-auto-label").textContent = t("syncAuto");
@@ -596,10 +599,22 @@ async function confirmAction({ title, message, confirmLabel, auto = false }) {
   });
 }
 
+async function getTrash() { const result = await browser.storage.local.get(TRASH_KEY); return Array.isArray(result[TRASH_KEY]) ? result[TRASH_KEY] : []; }
+async function setTrash(items) { await browser.storage.local.set({ [TRASH_KEY]: items }); }
+async function purgeExpiredTrash() { const cutoff=Date.now()-30*24*60*60*1000; const items=await getTrash(); const keep=items.filter(item=>new Date(item.deletedAt||0).getTime()>cutoff); if(keep.length!==items.length) await setTrash(keep); return keep; }
+function showDeleteToast(items) { const toast=document.getElementById("delete-toast"), text=document.getElementById("delete-toast-text"); lastDeletedTrash=items; text.textContent=`已刪除 ${items.length} 筆標記`; toast.hidden=false; clearTimeout(deleteToastTimer); deleteToastTimer=setTimeout(()=>{toast.hidden=true;lastDeletedTrash=null;},3000); }
+async function moveToTrash(markers) { if(!markers.length)return; const trash=await purgeExpiredTrash(); const now=new Date().toISOString(); await setTrash([...trash,...markers.map(marker=>({ ...marker, deletedAt:now }))]); }
+async function restoreTrashItems(items) { if(!items?.length)return; const all=await getAll(); const ids=new Set(all.map(m=>m.id)); await setAll([...all,...items.filter(m=>!ids.has(m.id)).map(({deletedAt,...marker})=>marker)]); const trash=await getTrash(); const removed=new Set(items.map(m=>m.id)); await setTrash(trash.filter(m=>!removed.has(m.id))); await render(); }
+async function renderTrash() { const list=document.getElementById("trash-list"); if(!list)return; const items=await purgeExpiredTrash(); list.replaceChildren(); if(!items.length){list.textContent="垃圾桶目前是空的";return;} for(const item of items){const row=document.createElement("div");row.className="trash-item";const label=document.createElement("span");label.textContent=item.title||item.note||"未命名標記";const btn=document.createElement("button");btn.textContent="永久清除";btn.addEventListener("click",()=>purgeTrashItems([item]));row.append(label,btn);list.append(row);} }
+async function purgeTrashItems(items) { const ids=items.map(m=>m.id); const trash=await getTrash(); await setTrash(trash.filter(m=>!ids.includes(m.id))); try { await browser.runtime.sendMessage({type:"VTM_SYNC_PURGE_MARKERS", markerIds:ids}); } catch {} await renderTrash(); }
+
 async function removeMarker(id) {
   if (!(await confirmAction({ title: t("confirmDeleteTitle"), message: t("confirmDelete"), confirmLabel: t("delete"), auto: true }))) return;
   const all = await getAll();
+  const deleted = all.filter((m) => m.id === id);
   await setAll(all.filter((m) => m.id !== id));
+  await moveToTrash(deleted);
+  showDeleteToast(deleted);
   await render();
 }
 
@@ -612,6 +627,7 @@ function selectedGroups() {
   return renderedGroups.filter((group) => keys.has(group.key));
 }
 
+let batchSelectionMode = false;
 function updateBatchButtons() {
   const selected = selectedGroupKeys();
   const exportButton = document.getElementById("export-selected");
@@ -629,11 +645,10 @@ function updateBatchButtons() {
       : t("deleteSelected");
   }
 
-  const selectAll = document.getElementById("select-all-groups");
-  if (!selectAll) return;
-  const total = renderedGroups.length;
-  selectAll.checked = total > 0 && selected.length === total;
-  selectAll.indeterminate = selected.length > 0 && selected.length < total;
+  document.body.classList.toggle("batch-selection-mode", batchSelectionMode);
+  document.getElementById("batch-select-toggle").textContent = batchSelectionMode ? "全選影片" : "批次選取";
+  document.getElementById("batch-select-cancel").hidden = !batchSelectionMode;
+  document.getElementById("batch-actions").hidden = !batchSelectionMode;
 }
 
 function exportGroup(group) {
@@ -654,7 +669,10 @@ async function deleteGroup(group) {
   if (!confirmed) return;
   const ids = new Set(group.markers.map((marker) => marker.id));
   const all = await getAll();
+  const deleted = all.filter((marker) => ids.has(marker.id));
   await setAll(all.filter((marker) => !ids.has(marker.id)));
+  await moveToTrash(deleted);
+  showDeleteToast(deleted);
   await render();
 }
 
@@ -666,7 +684,10 @@ async function deleteSelectedGroups() {
   if (!confirmed) return;
   const ids = new Set(groups.flatMap((group) => group.markers.map((marker) => marker.id)));
   const all = await getAll();
+  const deleted = all.filter((marker) => ids.has(marker.id));
   await setAll(all.filter((marker) => !ids.has(marker.id)));
+  await moveToTrash(deleted);
+  showDeleteToast(deleted);
   await render();
 }
 
@@ -857,6 +878,91 @@ async function openImportWindow() {
   }
 }
 
+const THUMB_SETTINGS_KEY = "vtm_popup_thumbnail_settings_v1";
+let thumbnailSettings = { save: true, show: true };
+let listFilter = { platform: "all", channel: "all" };
+const LIST_FILTER_KEY = "vtm_popup_list_filter_v1";
+function thumbnailUrl(marker) {
+  if (marker?.platform === "youtube" && marker.mediaId) return `https://i.ytimg.com/vi/${encodeURIComponent(marker.mediaId)}/mqdefault.jpg`;
+  return marker?.thumbnailUrl || marker?.thumbnail || "";
+}
+async function loadThumbnailSettings() {
+  const result = await browser.storage.local.get(THUMB_SETTINGS_KEY);
+  thumbnailSettings = { save: result?.[THUMB_SETTINGS_KEY]?.save !== false, show: result?.[THUMB_SETTINGS_KEY]?.show !== false };
+  for (const [id, value] of [["thumbnail-save", thumbnailSettings.save], ["thumbnail-show", thumbnailSettings.show]]) { const el=document.getElementById(id); if(el) el.checked=value; }
+}
+async function saveThumbnailSettings() { await browser.storage.local.set({ [THUMB_SETTINGS_KEY]: thumbnailSettings }); }
+function setupThumbnailSettings() {
+  const panel=document.getElementById("popup-settings"), toggle=document.getElementById("popup-settings-toggle");
+  const labels={"popup-settings-heading":"設定","thumbnail-save-label":"儲存中等畫質縮圖","thumbnail-show-label":"在 Popup 顯示縮圖","thumbnail-clear-label":"清除已儲存的縮圖資料"};
+  for(const [id,text] of Object.entries(labels)){const e=document.getElementById(id);if(e)e.textContent=text;}
+  toggle?.addEventListener("click",()=>{panel.hidden=!panel.hidden;toggle.setAttribute("aria-expanded",String(!panel.hidden));});
+  document.getElementById("thumbnail-save")?.addEventListener("change",async e=>{thumbnailSettings.save=e.target.checked;await saveThumbnailSettings();});
+  document.getElementById("thumbnail-show")?.addEventListener("change",async e=>{thumbnailSettings.show=e.target.checked;await saveThumbnailSettings();await render();});
+  document.getElementById("thumbnail-clear")?.addEventListener("click",async()=>{await browser.storage.local.remove("vtm_thumbnail_cache_v1");document.getElementById("thumbnail-status").textContent="已清除";});
+  document.getElementById("delete-undo")?.addEventListener("click",async()=>{if(lastDeletedTrash){await restoreTrashItems(lastDeletedTrash);document.getElementById("delete-toast").hidden=true;lastDeletedTrash=null;}});
+  document.getElementById("trash-empty")?.addEventListener("click",async()=>{const items=await getTrash();if(items.length&&await confirmAction({title:"永久清除垃圾桶",message:"永久清除後將無法復原，並同步移除雲端資料。",confirmLabel:"永久清除"})) await purgeTrashItems(items);});
+  document.getElementById("trash-toggle")?.addEventListener("click", async () => {
+    const section = document.getElementById("trash-section");
+    section.hidden = !section.hidden;
+    document.getElementById("trash-toggle").setAttribute("aria-expanded", String(!section.hidden));
+    if (!section.hidden) await renderTrash();
+  });
+}
+
+async function loadListFilter() { const result=await browser.storage.local.get(LIST_FILTER_KEY); if(result?.[LIST_FILTER_KEY]) listFilter={...listFilter,...result[LIST_FILTER_KEY]}; }
+async function persistListFilter() { await browser.storage.local.set({ [LIST_FILTER_KEY]: listFilter }); }
+function setupListFilters() {
+  document.querySelectorAll(".filter-chip").forEach(button => button.addEventListener("click", async () => {
+    listFilter.platform = button.dataset.filter || "all";
+    await persistListFilter();
+    document.querySelectorAll(".filter-chip").forEach(item => item.classList.toggle("is-active", item === button));
+    await render();
+  }));
+  document.getElementById("channel-filter")?.addEventListener("change", async event => { listFilter.channel = event.target.value; await persistListFilter(); await render(); });
+}
+function setupFilterToggle() {
+  const toolbar = document.getElementById("filter-toolbar");
+  const toggle = document.getElementById("filter-toolbar-toggle");
+  if (!toolbar || !toggle) return;
+  toolbar.hidden = true;
+  toggle.addEventListener("click", () => {
+    toolbar.hidden = !toolbar.hidden;
+    toggle.setAttribute("aria-expanded", String(!toolbar.hidden));
+  });
+}
+function refreshChannelFilter(groups) {
+  const select=document.getElementById("channel-filter"); if(!select) return;
+  const channels=[...new Map(groups.map(g=>[g.first.creatorName||"",g.first.creatorName||"未命名頻道"]).filter(x=>x[0])).entries()];
+  const current=listFilter.channel; select.replaceChildren(new Option("全部頻道","all"), ...channels.map(([value,label])=>new Option(label,value)));
+  select.value=channels.some(([value])=>value===current)?current:"all"; listFilter.channel=select.value;
+}
+function applyListFilter(groups) {
+  return groups.filter(group => {
+    const first=group.first||{};
+    const platform=listFilter.platform === "all" || first.platform === listFilter.platform;
+    const channel=listFilter.channel === "all" || (first.creatorName||"") === listFilter.channel;
+    return platform && channel;
+  });
+}
+async function adjustMarkerTime(id, delta) {
+  const markers = await getAll();
+  const marker = markers.find(item => item.id === id);
+  if (!marker) return;
+  const current = Number(marker.vodResolution?.resolvedPositionSeconds ?? marker.positionSeconds ?? marker.timeline?.playerCurrentTime ?? 0);
+  const duration = Number(marker.timeline?.duration);
+  const next = Math.max(0, Number.isFinite(duration) && duration > 0 ? Math.min(duration, current + delta) : current + delta);
+  if (marker.vodResolution?.resolvedPositionSeconds != null) {
+    marker.vodResolution = { ...marker.vodResolution, resolvedPositionSeconds: next };
+  } else if (Object.prototype.hasOwnProperty.call(marker, "positionSeconds")) {
+    marker.positionSeconds = next;
+  } else {
+    marker.timeline = { ...(marker.timeline || {}), playerCurrentTime: next };
+  }
+  await setAll(markers);
+  await render();
+}
+
 async function render() {
   await loadGroupCollapseState();
   const previouslySelected = new Set(selectedGroupKeys());
@@ -864,7 +970,9 @@ async function render() {
   const itemTemplate = document.getElementById("item-template");
   const groupTemplate = document.getElementById("group-template");
   const all = await getAll();
-  renderedGroups = groupMarkers(all);
+  const allGroups = groupMarkers(all);
+  refreshChannelFilter(allGroups);
+  renderedGroups = applyListFilter(allGroups);
   await pruneGroupCollapseState(renderedGroups);
   list.replaceChildren();
 
@@ -896,14 +1004,19 @@ async function render() {
     groupNode.querySelector(".group-title").textContent = first.title || t("unnamedVideo");
     groupNode.querySelector(".group-badge").textContent = `${first.platform || ""} · ${mediaTypeLabel(first.mediaType)} · ${t("markerCount", [String(group.markers.length)])}`;
     groupNode.querySelector(".group-meta").textContent = first.creatorName || t("creatorFallback");
+    if (thumbnailSettings.show) { const url=thumbnailUrl(first); if(url) { const image=document.createElement("img"); image.className="group-thumbnail"; image.src=url; image.alt=first.title||""; image.loading="lazy"; image.referrerPolicy="no-referrer"; groupNode.querySelector(".group-thumb-column").appendChild(image); if(thumbnailSettings.save) { const cache=(await browser.storage.local.get("vtm_thumbnail_cache_v1"))["vtm_thumbnail_cache_v1"]||{}; cache[group.key]=url; await browser.storage.local.set({"vtm_thumbnail_cache_v1":cache}); } } }
 
     const groupExport = groupNode.querySelector(".group-export");
     groupExport.textContent = t("exportThisMedia");
-    groupExport.addEventListener("click", () => exportGroup(group));
+    groupExport.addEventListener("click", () => { menu?.setAttribute("hidden", ""); exportGroup(group); });
 
     const groupDelete = groupNode.querySelector(".group-delete");
     groupDelete.textContent = t("deleteThisMedia");
-    groupDelete.addEventListener("click", () => deleteGroup(group));
+    groupDelete.addEventListener("click", () => { menu?.setAttribute("hidden", ""); deleteGroup(group); });
+    const menuToggle = groupNode.querySelector(".group-menu-toggle");
+    const menu = groupNode.querySelector(".group-menu");
+    menuToggle.addEventListener("click", (event) => { event.stopPropagation(); const open = menu.hidden; menu.hidden = !open; menuToggle.setAttribute("aria-expanded", String(open)); });
+    document.addEventListener("click", () => { menu.hidden = true; menuToggle.setAttribute("aria-expanded", "false"); }, { once: true });
 
     const markerList = groupNode.querySelector(".group-markers");
     const groupToggle = groupNode.querySelector(".group-toggle");
@@ -915,8 +1028,14 @@ async function render() {
       collapsed,
       first.title || t("unnamedVideo")
     );
-    groupToggle.addEventListener("click", () => {
+    const toggleGroup = () => {
       toggleGroupCollapsed(group, groupIndex, groupNode, markerList, groupToggle);
+    };
+    groupToggle.addEventListener("click", toggleGroup);
+    groupNode.querySelector(".group-title")?.addEventListener("click", toggleGroup);
+    groupNode.querySelector(".group-thumb-column")?.addEventListener("click", (event) => {
+      if (event.target.closest("button, input, label")) return;
+      toggleGroup();
     });
 
     for (const marker of group.markers) {
@@ -928,17 +1047,20 @@ async function render() {
 
       const openButton = node.querySelector(".open");
       const editButton = node.querySelector(".edit");
-      const exportButton = node.querySelector(".export");
+      const minusButton = node.querySelector(".minus5");
+      const plusButton = node.querySelector(".plus5");
       const deleteButton = node.querySelector(".delete");
       openButton.textContent = t("open");
       openButton.title = t("openReuseHint");
       editButton.textContent = t("editNote");
-      exportButton.textContent = t("exportMarker");
+      minusButton.textContent = "−5 秒";
+      plusButton.textContent = "+5 秒";
       deleteButton.textContent = t("delete");
 
       openButton.addEventListener("click", () => openMarkerSmart(marker));
       editButton.addEventListener("click", () => editNote(marker.id));
-      exportButton.addEventListener("click", () => browser.runtime.sendMessage({ type: "VTM_EXPORT", markerIds: [marker.id] }));
+      minusButton.addEventListener("click", () => adjustMarkerTime(marker.id, -5));
+      plusButton.addEventListener("click", () => adjustMarkerTime(marker.id, 5));
       deleteButton.addEventListener("click", () => removeMarker(marker.id));
       markerList.appendChild(node);
     }
@@ -981,14 +1103,20 @@ document.getElementById("add-marker-current").addEventListener("click", async ()
 document.getElementById("export-all").addEventListener("click", () => browser.runtime.sendMessage({ type: "VTM_EXPORT" }));
 document.getElementById("export-selected").addEventListener("click", exportSelectedGroups);
 document.getElementById("delete-selected").addEventListener("click", deleteSelectedGroups);
-document.getElementById("select-all-groups").addEventListener("change", (event) => {
-  const checked = Boolean(event.target.checked);
-  for (const input of document.querySelectorAll(".group-select")) input.checked = checked;
+document.getElementById("batch-select-toggle").addEventListener("click", () => {
+  if (!batchSelectionMode) batchSelectionMode = true;
+  else for (const input of document.querySelectorAll(".group-select")) input.checked = true;
+  updateBatchButtons();
+});
+document.getElementById("batch-select-cancel").addEventListener("click", () => {
+  batchSelectionMode = false;
+  for (const input of document.querySelectorAll(".group-select")) input.checked = false;
   updateBatchButtons();
 });
 document.getElementById("import-txt").addEventListener("click", openImportWindow);
 document.getElementById("import-report-close").addEventListener("click", clearImportReport);
 document.getElementById("sync-panel-toggle").addEventListener("click", () => setSyncPanelOpen(!syncPanelOpen));
+
 document.getElementById("sync-panel-close").addEventListener("click", () => setSyncPanelOpen(false));
 document.getElementById("sync-connect").addEventListener("click", connectGoogleDrive);
 document.getElementById("sync-now").addEventListener("click", syncNow);
@@ -1050,5 +1178,5 @@ async function ensureHostAccessBanner() {
   document.getElementById("list")?.before(banner);
 }
 void ensureHostAccessBanner();
-Promise.all([render(), loadImportReport(), updateAddMarkerAvailability(), loadSyncStatus({ refreshIfStale: true })])
+(async()=>{ await loadThumbnailSettings(); await loadListFilter(); setupThumbnailSettings(); setupListFilters(); setupFilterToggle(); await Promise.all([render(), loadImportReport(), updateAddMarkerAvailability(), loadSyncStatus({ refreshIfStale: true })]); })()
   .catch((error) => console.error("[VTM] popup init failed", error));
